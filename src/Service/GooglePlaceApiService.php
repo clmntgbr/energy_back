@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\GasStation;
+use App\Entity\EnergyStation;
 use GuzzleHttp\Client;
 
 class GooglePlaceApiService
@@ -14,9 +14,9 @@ class GooglePlaceApiService
     ) {
     }
 
-    public function placeTextsearch(GasStation $gasStation): ?string
+    public function placeTextsearch(EnergyStation $energyStation): ?string
     {
-        $url = rawurlencode($this->stripAccents(sprintf('%s %s %s', $gasStation->getAddress()->getNumber(), $gasStation->getAddress()->getStreet(), $gasStation->getAddress()->getCity())));
+        $url = rawurlencode($this->stripAccents(sprintf('%s %s %s', $energyStation->getAddress()->getNumber(), $energyStation->getAddress()->getStreet(), $energyStation->getAddress()->getCity())));
         $url = sprintf($this->placeTextsearchUrl, $url, $this->googleApiKey);
 
         $client = new Client();
@@ -25,7 +25,7 @@ class GooglePlaceApiService
         $data = \Safe\json_decode($response->getBody()->getContents(), true);
         $data['placeTextsearchUrl'] = $url;
 
-        $gasStation->getGooglePlace()->setTextsearchApiResult($data);
+        $energyStation->getGooglePlace()->setTextsearchApiResult($data);
 
         if (array_key_exists('status', $data) && in_array($data['status'], ['OK']) && array_key_exists('results', $data) && count($data['results']) > 0 && array_key_exists('place_id', $data['results'][0])) {
             return $data['results'][0]['place_id'];
@@ -34,9 +34,9 @@ class GooglePlaceApiService
         return null;
     }
 
-    public function placeDetails(GasStation $gasStation)
+    public function placeDetails(EnergyStation $energyStation)
     {
-        $url = sprintf($this->placeDetailsUrl, $gasStation->getGooglePlace()->getPlaceId(), $this->googleApiKey);
+        $url = sprintf($this->placeDetailsUrl, $energyStation->getGooglePlace()->getPlaceId(), $this->googleApiKey);
 
         $client = new Client();
         $response = $client->request('GET', $url);
@@ -44,7 +44,7 @@ class GooglePlaceApiService
         $data = \Safe\json_decode($response->getBody()->getContents(), true);
         $data['placeDetailsUrl'] = $url;
 
-        $gasStation->getGooglePlace()->setPlaceDetailsApiResult($data);
+        $energyStation->getGooglePlace()->setPlaceDetailsApiResult($data);
 
         if (array_key_exists('status', $data) && 'OK' == $data['status'] && array_key_exists('result', $data)) {
             return $data['result'];

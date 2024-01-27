@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\EntityId\GasStationId;
-use App\Entity\GasStation;
+use App\Entity\EnergyStation;
+use App\Entity\EntityId\EnergyStationId;
 use App\Message\CreateGooglePlaceAnomalyMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -15,14 +15,14 @@ final class GooglePlaceService
     }
 
     /**
-     * @param array<int, GasStation> $gasStations
+     * @param array<int, EnergyStation> $energyStations
      */
-    public function createAnomalies(array $gasStations): bool
+    public function createAnomalies(array $energyStations): bool
     {
-        foreach ($gasStations as $gasStationAnomaly) {
+        foreach ($energyStations as $energyStationAnomaly) {
             $this->messageBus->dispatch(
                 new CreateGooglePlaceAnomalyMessage(
-                    new GasStationId($gasStationAnomaly->getGasStationId())
+                    new EnergyStationId($energyStationAnomaly->getEnergyStationId())
                 )
             );
         }
@@ -33,9 +33,9 @@ final class GooglePlaceService
     /**
      * @param array<mixed> $details
      */
-    public function updateGasStationGooglePlace(GasStation $gasStation, array $details): void
+    public function updateEnergyStationGooglePlace(EnergyStation $energyStation, array $details): void
     {
-        $gasStation
+        $energyStation
             ->getGooglePlace()
             ->setGoogleId($details['id'] ?? null)
             ->setPlaceId($details['place_id'] ?? null)
@@ -57,9 +57,9 @@ final class GooglePlaceService
     /**
      * @param array<mixed> $details
      */
-    public function updateGasStationAddress(GasStation $gasStation, array $details): void
+    public function updateEnergyStationAddress(EnergyStation $energyStation, array $details): void
     {
-        $address = $gasStation->getAddress();
+        $address = $energyStation->getAddress();
 
         foreach ($details['address_components'] as $component) {
             foreach ($component['types'] as $type) {

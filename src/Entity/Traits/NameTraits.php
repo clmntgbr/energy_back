@@ -9,11 +9,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 trait NameTraits
 {
     #[ORM\Column(type: Types::STRING)]
-    #[Groups(['get_gas_stations', 'get_gas_types', 'get_gas_type', 'get_gas_station'])]
+    #[Groups(['get_energy_stations', 'get_energy_types', 'get_energy_type', 'get_energy_station'])]
     private ?string $name;
 
     #[ORM\Column(type: Types::STRING)]
-    #[Groups(['get_gas_stations', 'get_gas_types', 'get_gas_type', 'get_gas_station'])]
+    #[Groups(['get_energy_stations', 'get_energy_types', 'get_energy_type', 'get_energy_station'])]
     private ?string $reference;
 
     public function getName(): ?string

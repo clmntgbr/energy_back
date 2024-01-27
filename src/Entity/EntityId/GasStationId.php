@@ -2,7 +2,7 @@
 
 namespace App\Entity\EntityId;
 
-final class GasStationId
+final class EnergyStationId
 {
     public function __construct(
         private readonly string $id

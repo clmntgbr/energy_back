@@ -3,3 +3,11 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+authentication_token:
+  path: /api/authenticate
+  methods: [ "POST" ]
+
+admin:
+  resource: ../src/Admin/
+  type: attribute

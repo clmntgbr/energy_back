@@ -1,0 +1,14 @@
+App\Entity\EnergyStationBrand:
+  brand_total:
+    reference: "total"
+    name: "Total"
+    image.name: "64ce39fc88903300238828.png"
+    image.originalName: "64ce39fc88903300238828.png"
+    image.mimeType: "image/png"
+    image.size: "41586"
+    image.dimensions: [ "428", "583" ]
+    imageLow.name: "6557bf1bab8a3701442462.png"
+    imageLow.originalName: "6557bfe2538a0997536713.png"
+    imageLow.mimeType: "image/png"
+    imageLow.size: "39654"
+    imageLow.dimensions: [ "428", "583" ]
