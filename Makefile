@@ -81,6 +81,29 @@ install:
 update:
 	$(PHP) composer update
 
+## Drop database
+drop:
+	$(PHP) bin/console doctrine:database:drop --if-exists --force
+
+## Load fixtures
+fixture:
+	$(PHP) bin/console hautelook:fixtures:load --env=dev --no-interaction
+
+## Create database
+create:
+	$(PHP) bin/console doctrine:database:create --if-not-exists
+
+## Making migration file
+migration:
+	$(PHP) bin/console make:migration
+
+## Applying migration
+migrate:
+	$(PHP) bin/console doctrine:migration:migrate --no-interaction
+
+entity:
+	$(PHP) bin/console make:entity
+
 ## QA
 cs-fixer:
 	docker run --init -it --rm -v $(PWD):/project -w /project jakzal/phpqa php-cs-fixer fix ./src --rules=@Symfony
