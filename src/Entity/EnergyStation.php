@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use function Safe\json_encode;
 
 #[ORM\Entity(repositoryClass: EnergyStationRepository::class)]
 #[ApiResource]
@@ -80,9 +81,9 @@ class EnergyStation
     #[ORM\OneToMany(mappedBy: 'energyStation', targetEntity: EnergyPrice::class, cascade: ['persist', 'remove'], fetch: 'LAZY')]
     private Collection $energyPrices;
 
-    #[ORM\ManyToMany(targetEntity: EnergyService::class, inversedBy: 'energyStations', cascade: ['persist'])]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     #[Groups(['get_energy_stations', 'get_energy_station'])]
-    private Collection $energyServices;
+    private ?array $services;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $lastEnergyPrices;
@@ -111,9 +112,9 @@ class EnergyStation
         $this->uuid = Uuid::v4();
         $this->lastEnergyPrices = [];
         $this->previousEnergyPrices = [];
+        $this->services = [];
         $this->image = new \Vich\UploaderBundle\Entity\File();
         $this->energyPrices = new ArrayCollection();
-        $this->energyServices = new ArrayCollection();
     }
 
     public function __toString()
@@ -179,18 +180,6 @@ class EnergyStation
         return $this;
     }
 
-    public function getEnergyStationId(): ?string
-    {
-        return $this->energyStationId;
-    }
-
-    public function setEnergyStationId(string $energyStationId): static
-    {
-        $this->energyStationId = $energyStationId;
-
-        return $this;
-    }
-
     public function getName(): ?string
     {
         return $this->name;
@@ -203,40 +192,67 @@ class EnergyStation
         return $this;
     }
 
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function getStatusAdmin()
+    {
+        return null;
+    }
+
+    public function setStatusAdmin(?string $status): self
+    {
+        if (null === $status) {
+            return $this;
+        }
+
+        $this->status = $status;
+        $this->setStatuses($status);
+
+        return $this;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+        $this->setStatuses($status);
+
+        return $this;
+    }
+
     public function getStatuses(): ?array
     {
         return $this->statuses;
     }
 
-    public function setStatuses(?array $statuses): static
+    public function getStatusesAdmin(): ?array
     {
-        $this->statuses = $statuses;
+        return array_reverse($this->statuses);
+    }
+
+    public function setStatuses(string $status): self
+    {
+        $this->statuses[] = $status;
 
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function setInitStatuses(array $status): self
     {
-        return $this->status;
-    }
-
-    public function setStatus(?string $status): static
-    {
-        $this->status = $status;
+        $this->statuses = $status;
 
         return $this;
     }
 
-    public function isHasEnergyStationBrandVerified(): ?bool
+    public function getPreviousStatus(): ?string
     {
-        return $this->hasEnergyStationBrandVerified;
-    }
+        if (count($this->statuses) <= 1) {
+            return end($this->statuses);
+        }
 
-    public function setHasEnergyStationBrandVerified(?bool $hasEnergyStationBrandVerified): static
-    {
-        $this->hasEnergyStationBrandVerified = $hasEnergyStationBrandVerified;
-
-        return $this;
+        return $this->statuses[count($this->statuses) - 2];
     }
 
     public function getClosedAt(): ?\DateTimeImmutable
@@ -244,9 +260,43 @@ class EnergyStation
         return $this->closedAt;
     }
 
+    public function getLastEnergyPricesAdmin()
+    {
+        $json = [];
+        foreach ($this->lastEnergyPrices as $key => $energyPrice) {
+            $energyPrice['date'] = (new \DateTime('now', new \DateTimeZone('Europe/Paris')))->setTimestamp($energyPrice['energyPriceDatetimestamp'])->format('Y-m-d h:s:i');
+            $json[$key] = $energyPrice;
+        }
+
+        return json_encode($json, JSON_PRETTY_PRINT);
+    }
+
+    public function getPreviousEnergyPricesAdmin()
+    {
+        $json = [];
+        foreach ($this->previousEnergyPrices as $key => $energyPrice) {
+            $energyPrice['date'] = (new \DateTime())->setTimestamp($energyPrice['energyPriceDatetimestamp'])->format('Y-m-d h:s:i');
+            $json[$key] = $energyPrice;
+        }
+
+        return json_encode($json, JSON_PRETTY_PRINT);
+    }
+
     public function setClosedAt(?\DateTimeImmutable $closedAt): static
     {
         $this->closedAt = $closedAt;
+
+        return $this;
+    }
+
+    public function isHasLowPrices(): ?bool
+    {
+        return $this->hasLowPrices;
+    }
+
+    public function setHasLowPrices(bool $hasLowPrices): self
+    {
+        $this->hasLowPrices = $hasLowPrices;
 
         return $this;
     }
@@ -259,78 +309,6 @@ class EnergyStation
     public function setElement(array $element): static
     {
         $this->element = $element;
-
-        return $this;
-    }
-
-    public function getHash(): ?string
-    {
-        return $this->hash;
-    }
-
-    public function setHash(?string $hash): static
-    {
-        $this->hash = $hash;
-
-        return $this;
-    }
-
-    public function getLastEnergyPrices(): ?array
-    {
-        return $this->lastEnergyPrices;
-    }
-
-    public function setLastEnergyPrices(?array $lastEnergyPrices): static
-    {
-        $this->lastEnergyPrices = $lastEnergyPrices;
-
-        return $this;
-    }
-
-    public function getPreviousEnergyPrices(): ?array
-    {
-        return $this->previousEnergyPrices;
-    }
-
-    public function setPreviousEnergyPrices(?array $previousEnergyPrices): static
-    {
-        $this->previousEnergyPrices = $previousEnergyPrices;
-
-        return $this;
-    }
-
-    public function getMaxRetryPositionStack(): ?int
-    {
-        return $this->maxRetryPositionStack;
-    }
-
-    public function setMaxRetryPositionStack(int $maxRetryPositionStack): static
-    {
-        $this->maxRetryPositionStack = $maxRetryPositionStack;
-
-        return $this;
-    }
-
-    public function getMaxRetryTextSearch(): ?int
-    {
-        return $this->maxRetryTextSearch;
-    }
-
-    public function setMaxRetryTextSearch(int $maxRetryTextSearch): static
-    {
-        $this->maxRetryTextSearch = $maxRetryTextSearch;
-
-        return $this;
-    }
-
-    public function getMaxRetryPlaceDetails(): ?int
-    {
-        return $this->maxRetryPlaceDetails;
-    }
-
-    public function setMaxRetryPlaceDetails(int $maxRetryPlaceDetails): static
-    {
-        $this->maxRetryPlaceDetails = $maxRetryPlaceDetails;
 
         return $this;
     }
@@ -359,14 +337,26 @@ class EnergyStation
         return $this;
     }
 
-    public function getEnergyStationBrand(): ?EnergyStationBrand
+    public function getHash(): ?string
     {
-        return $this->energyStationBrand;
+        return $this->hash;
     }
 
-    public function setEnergyStationBrand(?EnergyStationBrand $energyStationBrand): static
+    public function setHash(?string $hash): static
     {
-        $this->energyStationBrand = $energyStationBrand;
+        $this->hash = $hash;
+
+        return $this;
+    }
+
+    public function getEnergyStationId(): ?string
+    {
+        return $this->energyStationId;
+    }
+
+    public function setEnergyStationId(string $energyStationId): static
+    {
+        $this->energyStationId = $energyStationId;
 
         return $this;
     }
@@ -401,27 +391,182 @@ class EnergyStation
         return $this;
     }
 
-    /**
-     * @return Collection<int, EnergyService>
-     */
-    public function getEnergyServices(): Collection
+    public function getElementAdmin()
     {
-        return $this->energyServices;
+        return json_encode($this->element, JSON_PRETTY_PRINT);
     }
 
-    public function addEnergyService(EnergyService $energyService): static
+    public function getServicesAdmin()
     {
-        if (!$this->energyServices->contains($energyService)) {
-            $this->energyServices->add($energyService);
+        return json_encode($this->services, JSON_PRETTY_PRINT);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getLastEnergyPrices(): array
+    {
+        return $this->lastEnergyPrices;
+    }
+
+    public function setLastEnergyPrices(EnergyPrice $energyPrice): self
+    {
+        $value = 'stable';
+
+        if (array_key_exists($energyPrice->getEnergyType()->getUuid(), $this->lastEnergyPrices) && null !== $this->lastEnergyPrices[$energyPrice->getEnergyType()->getUuid()]) {
+            $this->previousEnergyPrices[$energyPrice->getEnergyType()->getUuid()] = $this->lastEnergyPrices[$energyPrice->getEnergyType()->getUuid()];
+            $value = $this->getEnergyPriceDifference($energyPrice);
         }
+
+        $this->lastEnergyPrices[$energyPrice->getEnergyType()->getUuid()] = $this->hydrateEnergyPrices($energyPrice, $value);
 
         return $this;
     }
 
-    public function removeEnergyService(EnergyService $energyService): static
+    public function addLastEnergyPrices(array $energyPrice)
     {
-        $this->energyServices->removeElement($energyService);
+        $this->lastEnergyPrices = $energyPrice;
 
+        return $this;
+    }
+
+    private function getEnergyPriceDifference(EnergyPrice $energyPrice)
+    {
+        if ($this->previousEnergyPrices[$energyPrice->getEnergyType()->getUuid()]['energyPriceValue'] > $energyPrice->getValue()) {
+            return 'decreasing';
+        }
+
+        if ($this->previousEnergyPrices[$energyPrice->getEnergyType()->getUuid()]['energyPriceValue'] < $energyPrice->getValue()) {
+            return 'increasing';
+        }
+
+        return 'stable';
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getPreviousEnergyPrices()
+    {
+        return $this->previousEnergyPrices;
+    }
+
+    public function setPreviousEnergyPrices(EnergyPrice $energyPrice): self
+    {
+        $this->previousEnergyPrices[$energyPrice->getEnergyType()->getUuid()] = $this->hydrateEnergyPrices($energyPrice);
+
+        return $this;
+    }
+
+    private function hydrateEnergyPrices(EnergyPrice $energyPrice, string $value = 'stable')
+    {
+        return [
+            'energyPriceId' => $energyPrice->getId(),
+            'energyPriceDatetimestamp' => $energyPrice->getDateTimestamp(),
+            'energyPriceValue' => $energyPrice->getValue(),
+            'energyTypeUuid' => $energyPrice->getEnergyType()->getUuid(),
+            'energyTypeId' => $energyPrice->getEnergyType()->getId(),
+            'energyTypeLabel' => $energyPrice->getEnergyType()->getName(),
+            'currency' => $energyPrice->getCurrency()->getName(),
+            'energyPriceDifference' => $value,
+        ];
+    }
+
+    public function getEnergyStationBrand(): ?EnergyStationBrand
+    {
+        return $this->energyStationBrand;
+    }
+
+    public function setEnergyStationBrand(?EnergyStationBrand $energyStationBrand): static
+    {
+        $this->energyStationBrand = $energyStationBrand;
+
+        return $this;
+    }
+
+    public function isHasEnergyStationBrandVerified(): ?bool
+    {
+        return $this->hasEnergyStationBrandVerified;
+    }
+
+    public function setHasEnergyStationBrandVerified(?bool $hasEnergyStationBrandVerified): static
+    {
+        $this->hasEnergyStationBrandVerified = $hasEnergyStationBrandVerified;
+
+        return $this;
+    }
+
+    public function getMaxRetryPositionStack(): ?int
+    {
+        return $this->maxRetryPositionStack;
+    }
+
+    public function addMaxRetryPositionStack(): ?int
+    {
+        return $this->maxRetryPositionStack++;
+    }
+
+    public function setMaxRetryPositionStack(int $maxRetryPositionStack): static
+    {
+        $this->maxRetryPositionStack = $maxRetryPositionStack;
+
+        return $this;
+    }
+
+    public function getMaxRetryTextSearch(): ?int
+    {
+        return $this->maxRetryTextSearch;
+    }
+
+    public function addMaxRetryTextSearch(): ?int
+    {
+        return $this->maxRetryTextSearch++;
+    }
+
+    public function setMaxRetryTextSearch(int $maxRetryTextSearch): static
+    {
+        $this->maxRetryTextSearch = $maxRetryTextSearch;
+
+        return $this;
+    }
+
+    public function getMaxRetryPlaceDetails(): ?int
+    {
+        return $this->maxRetryPlaceDetails;
+    }
+
+    public function addMaxRetryPlaceDetails(): ?int
+    {
+        return $this->maxRetryPlaceDetails++;
+    }
+
+    public function setMaxRetryPlaceDetails(int $maxRetryPlaceDetails): static
+    {
+        $this->maxRetryPlaceDetails = $maxRetryPlaceDetails;
+
+        return $this;
+    }
+
+    public function getServices(): ?array
+    {
+        return $this->services;
+    }
+
+    public function setServices(?array $services): static
+    {
+        $this->services = $services;
+        return $this;
+    }
+
+    public function addService(string $key, string $value): static
+    {
+        $this->services[$key] = ['key' => $key, 'name' => $value];
+        return $this;
+    }
+
+    public function initServices(): static
+    {
+        $this->services = [];
         return $this;
     }
 }

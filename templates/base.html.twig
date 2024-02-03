@@ -11,9 +11,11 @@
 
     {{ encore_entry_link_tags('app') }}
     {% block stylesheets %}{% endblock %}
+    {{ encore_entry_link_tags('app') }}
 
     {{ encore_entry_script_tags('app') }}
     {% block javascripts %}{% endblock %}
+    {{ encore_entry_script_tags('app') }}
 </head>
 
 <body class="h-full"> {% block body %}{% endblock %}

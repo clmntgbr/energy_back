@@ -1,8 +1,8 @@
 parameters:
-    gasPriceUrl: "%env(GAS_PRICE_URL)%"
-    gasPricePath: "%env(GAS_PRICE_PATH)%"
-    gasPriceName: "%env(GAS_PRICE_NAME)%"
-    gasPriceJsonName: "%env(GAS_PRICE_JSON_NAME)%"
+  gasUrl: "%env(GAS_URL)%"
+  gasPath: "%env(GAS_PATH)%"
+  gasName: "%env(GAS_NAME)%"
+  gasJsonName: "%env(GAS_JSON_NAME)%"
     positionStackApiKey: "%env(POSITION_STACK_API_KEY)%"
     positionStackUrl: "%env(POSITION_STACK_URL)%"
     googleApiKey: "%env(GOOGLE_API_KEY)%"
@@ -18,10 +18,10 @@ services:
         autowire: true
         autoconfigure: true
         bind:
-            string $gasPriceUrl: "%gasPriceUrl%"
-            string $gasPricePath: "%gasPricePath%"
-            string $gasPriceName: "%gasPriceName%"
-            string $gasPriceJsonName: "%gasPriceJsonName%"
+          string $gasUrl: "%gasUrl%"
+          string $gasPath: "%gasPath%"
+          string $gasName: "%gasName%"
+          string $gasJsonName: "%gasJsonName%"
             string $positionStackApiKey: "%positionStackApiKey%"
             string $positionStackUrl: "%positionStackUrl%"
             string $googleApiKey: "%googleApiKey%"

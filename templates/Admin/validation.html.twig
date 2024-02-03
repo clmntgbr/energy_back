@@ -1,7 +1,7 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
 {% block page_content %}
-    {% if gasStation is not null and gasStation is defined %}
+    {% if energyStation is not null and energyStation is defined %}
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
         <style>
@@ -24,14 +24,14 @@
             <section class="content-header">
                 <div class="content-header-title">
                     <h1 class="title">
-                        {{ gasStation.gasStationId }}
+                        {{ energyStation.energyStationId }}
                     </h1>
                 </div>
 
                 <div class="page-actions">
 
                     <a class=" action-index btn btn-secondary"
-                       href="/admin?routeName=app_admin_validation&gasStationId={{ gasStation.gasStationId }}"
+                       href="/admin?routeName=app_admin_validation&energyStationId={{ energyStation.energyStationId }}"
                        data-action-name="index">
                         <span class="action-label">Recharger</span>
                     </a>
@@ -41,31 +41,32 @@
                         <span class="action-label">Suivant</span>
                     </a>
 
-                    <a class=" action-index btn btn-secondary" href="{{ gasStationUrlEdit }}" data-action-name="index"
+                    <a class=" action-index btn btn-secondary" href="{{ energyStationUrlEdit }}"
+                       data-action-name="index"
                        target="_blank">
                         <span class="action-label">Edit</span>
                     </a>
 
                     <a class=" action-index btn btn-secondary"
-                       href="{{ path('app_admin_validation_rejected_placedetails', {'gasStationId': gasStation.gasStationId}) }}"
+                       href="{{ path('app_admin_validation_rejected_placedetails', {'energyStationId': energyStation.energyStationId}) }}"
                        data-action-name="index">
                         <span class="action-label">Rejected to PlaceDetails</span>
                     </a>
 
                     <a class=" action-index btn btn-secondary"
-                       href="{{ path('app_admin_validation_rejected_textsearch', {'gasStationId': gasStation.gasStationId}) }}"
+                       href="{{ path('app_admin_validation_rejected_textsearch', {'energyStationId': energyStation.energyStationId}) }}"
                        data-action-name="index">
                         <span class="action-label">Rejected to TextSearch</span>
                     </a>
 
                     <a class=" action-index btn btn-secondary"
-                       href="{{ path('app_admin_validation_rejected', {'gasStationId': gasStation.gasStationId}) }}"
+                       href="{{ path('app_admin_validation_rejected', {'energyStationId': energyStation.energyStationId}) }}"
                        data-action-name="index">
                         <span class="action-label">Rejected</span>
                     </a>
 
                     <a class=" action-edit btn btn-primary"
-                       href="{{ path('app_admin_validation_validate', {'gasStationId': gasStation.gasStationId}) }}"
+                       href="{{ path('app_admin_validation_validate', {'energyStationId': energyStation.energyStationId}) }}"
                        data-action-name="valider">
                         <span class="action-label">Valider</span>
                     </a>
@@ -81,7 +82,7 @@
                             <div class="form-panel-title">
                                 <a href="#" class="not-collapsible">
 
-                                    Gas Station Details
+                                    Energy Station Details
                                 </a>
 
                             </div>
@@ -93,11 +94,11 @@
 
                                 <div class="data-row field-id">
                                     <dt>
-                                        Gas Station Id
+                                        Energy Station Id
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.gasStationId }}
+                                        {{ energyStation.energyStationId }}
                                     </dd>
                                 </div>
 
@@ -107,7 +108,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="Station Bp Thiais Sud">{{ gasStation.name }}</span>
+                                        <span title="Station Bp Thiais Sud">{{ energyStation.name }}</span>
 
                                     </dd>
                                 </div>
@@ -137,7 +138,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="waiting_validation">{{ gasStation.status }}</span>
+                                        <span title="waiting_validation">{{ energyStation.status }}</span>
 
                                     </dd>
                                 </div>
@@ -149,7 +150,7 @@
                                     </dt>
                                     <dd>
                                         <ul>
-                                            {% for status in gasStation.statuses|reverse %}
+                                            {% for status in energyStation.statuses|reverse %}
                                                 <li>{{ status }}</li>
                                             {% endfor %}
                                         </ul>
@@ -185,7 +186,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.googlePlace.id }}
+                                        {{ energyStation.googlePlace.id }}
 
                                     </dd>
                                 </div>
@@ -197,7 +198,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.googlePlace.uuid }}
+                                        {{ energyStation.googlePlace.uuid }}
 
                                     </dd>
                                 </div>
@@ -209,7 +210,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="ChIJy6os2ALnC0ERoP9M1-lWp_4">{{ gasStation.googlePlace.placeId }}</span>
+                                        <span title="ChIJy6os2ALnC0ERoP9M1-lWp_4">{{ energyStation.googlePlace.placeId }}</span>
 
                                     </dd>
                                 </div>
@@ -221,7 +222,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span class="badge badge-secondary">{{ gasStation.googlePlace.googleId }}</span>
+                                        <span class="badge badge-secondary">{{ energyStation.googlePlace.googleId }}</span>
 
                                     </dd>
                                 </div>
@@ -233,7 +234,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="{{ gasStation.googlePlace.website }}">{{ gasStation.googlePlace.website }}</span>
+                                        <span title="{{ energyStation.googlePlace.website }}">{{ energyStation.googlePlace.website }}</span>
 
                                     </dd>
                                 </div>
@@ -245,7 +246,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="+33 1 45 60 45 71">{{ gasStation.googlePlace.phoneNumber }}</span>
+                                        <span title="+33 1 45 60 45 71">{{ energyStation.googlePlace.phoneNumber }}</span>
 
                                     </dd>
                                 </div>
@@ -257,7 +258,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="Q93F+XW Thiais, France">{{ gasStation.googlePlace.compoundCode }}</span>
+                                        <span title="Q93F+XW Thiais, France">{{ energyStation.googlePlace.compoundCode }}</span>
 
                                     </dd>
                                 </div>
@@ -269,7 +270,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="8FW4Q93F+XW">{{ gasStation.googlePlace.globalCode }}</span>
+                                        <span title="8FW4Q93F+XW">{{ energyStation.googlePlace.globalCode }}</span>
 
                                     </dd>
                                 </div>
@@ -281,7 +282,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="{{ gasStation.googlePlace.googleRating }}">{{ gasStation.googlePlace.googleRating }}</span>
+                                        <span title="{{ energyStation.googlePlace.googleRating }}">{{ energyStation.googlePlace.googleRating }}</span>
 
                                     </dd>
                                 </div>
@@ -293,7 +294,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="{{ gasStation.googlePlace.rating }}">{{ gasStation.googlePlace.rating }}</span>
+                                        <span title="{{ energyStation.googlePlace.rating }}">{{ energyStation.googlePlace.rating }}</span>
 
                                     </dd>
                                 </div>
@@ -305,7 +306,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="{{ gasStation.googlePlace.userRatingsTotal }}">{{ gasStation.googlePlace.userRatingsTotal }}</span>
+                                        <span title="{{ energyStation.googlePlace.userRatingsTotal }}">{{ energyStation.googlePlace.userRatingsTotal }}</span>
 
                                     </dd>
                                 </div>
@@ -317,7 +318,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="{{ gasStation.googlePlace.icon }}">{{ gasStation.googlePlace.icon }}</span>
+                                        <span title="{{ energyStation.googlePlace.icon }}">{{ energyStation.googlePlace.icon }}</span>
 
                                     </dd>
                                 </div>
@@ -329,7 +330,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="{{ gasStation.googlePlace.reference }}">{{ gasStation.googlePlace.reference }}</span>
+                                        <span title="{{ energyStation.googlePlace.reference }}">{{ energyStation.googlePlace.reference }}</span>
 
                                     </dd>
                                 </div>
@@ -341,7 +342,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="{{ gasStation.googlePlace.wheelchairAccessibleEntrance }}">{{ gasStation.googlePlace.wheelchairAccessibleEntrance }}</span>
+                                        <span title="{{ energyStation.googlePlace.wheelchairAccessibleEntrance }}">{{ energyStation.googlePlace.wheelchairAccessibleEntrance }}</span>
 
                                     </dd>
                                 </div>
@@ -353,7 +354,7 @@
 
                                     </dt>
                                     <dd>
-                                        <span title="{{ gasStation.googlePlace.businessStatus }}">{{ gasStation.googlePlace.businessStatus }}</span>
+                                        <span title="{{ energyStation.googlePlace.businessStatus }}">{{ energyStation.googlePlace.businessStatus }}</span>
 
                                     </dd>
                                 </div>
@@ -366,7 +367,7 @@
                                     </dt>
                                     <dd>
                                         <ul>
-                                            {% for openingHour in gasStation.googlePlace.openingHours %}
+                                            {% for openingHour in energyStation.googlePlace.openingHours %}
                                                 <li>{{ openingHour }}</li>
                                             {% endfor %}
                                         </ul>
@@ -402,7 +403,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.id }}
+                                        {{ energyStation.address.id }}
 
                                     </dd>
                                 </div>
@@ -414,7 +415,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.uuid }}
+                                        {{ energyStation.address.uuid }}
 
                                     </dd>
                                 </div>
@@ -426,7 +427,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.vicinity }}
+                                        {{ energyStation.address.vicinity }}
 
                                     </dd>
                                 </div>
@@ -438,7 +439,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.street }}
+                                        {{ energyStation.address.street }}
 
                                     </dd>
                                 </div>
@@ -450,7 +451,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.number }}
+                                        {{ energyStation.address.number }}
 
                                     </dd>
                                 </div>
@@ -462,7 +463,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.city }}
+                                        {{ energyStation.address.city }}
 
                                     </dd>
                                 </div>
@@ -474,7 +475,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.region }}
+                                        {{ energyStation.address.region }}
 
                                     </dd>
                                 </div>
@@ -486,7 +487,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.postalCode }}
+                                        {{ energyStation.address.postalCode }}
 
                                     </dd>
                                 </div>
@@ -498,7 +499,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.country }}
+                                        {{ energyStation.address.country }}
 
                                     </dd>
                                 </div>
@@ -510,7 +511,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.longitude }}
+                                        {{ energyStation.address.longitude }}
 
                                     </dd>
                                 </div>
@@ -522,7 +523,7 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.latitude }}
+                                        {{ energyStation.address.latitude }}
 
                                     </dd>
                                 </div>
@@ -553,7 +554,7 @@
                                         Vicinity
                                     </dt>
                                     <dd>
-                                        {{ gasStation.address.vicinity }}
+                                        {{ energyStation.address.vicinity }}
                                     </dd>
                                 </div>
 
@@ -564,8 +565,8 @@
 
                                     </dt>
                                     <dd>
-                                        {{ gasStation.element.adresse }},
-                                        {{ gasStation.element.ville }}
+                                        {{ energyStation.element.adresse }},
+                                        {{ energyStation.element.ville }}
 
                                     </dd>
                                 </div>
@@ -576,8 +577,8 @@
 
                                     </dt>
                                     <dd>
-                                        {% if gasStations is not empty %}
-                                            {{ gasStationsCount }}
+                                        {% if energyStations is not empty %}
+                                            {{ energyStationsCount }}
                                         {% else %}
                                             0
                                         {% endif %}
@@ -645,8 +646,8 @@
                 });
             }
 
-            addMarkerByAddress('{{ gasStation.address.vicinity }}', 'Vicinity');
-            addMarkerByAddress('{{ gasStation.element.adresse }},          {{ gasStation.element.ville }}', 'Base vicinity');
+            addMarkerByAddress('{{ energyStation.address.vicinity }}', 'Vicinity');
+            addMarkerByAddress('{{ energyStation.element.adresse }},          {{ energyStation.element.ville }}', 'Base vicinity');
         </script>
     {% else %}
         <p>rien</p>

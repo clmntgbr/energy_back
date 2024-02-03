@@ -14,7 +14,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CodeEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
@@ -331,7 +330,7 @@ class EnergyStationCrudController extends AbstractCrudController
                 ->hideOnIndex(),
 
             FormField::addPanel('Energy Station Services'),
-            CollectionField::new('energyServices')
+            CodeEditorField::new('servicesAdmin')
                 ->setDisabled()
                 ->hideOnIndex(),
 
