@@ -5,6 +5,7 @@ namespace App\MessageHandler;
 use App\Entity\Address;
 use App\Entity\EnergyStation;
 use App\Entity\GooglePlace;
+use App\Lists\EnergyStationReference;
 use App\Lists\EnergyStationStatusReference;
 use App\Message\CreateEnergyStationMessage;
 use App\Repository\EnergyStationBrandRepository;
@@ -63,7 +64,6 @@ final class CreateEnergyStationMessageHandler
             ->setVicinity(sprintf('%s, %s %s, %s', $message->getStreet(), $message->getCp(), $message->getCity(), $message->getCountry()));
 
         $element = $message->getElement();
-        unset($element['prix']);
 
         $energyStation = new EnergyStation();
         $energyStation
@@ -73,7 +73,7 @@ final class CreateEnergyStationMessageHandler
             ->setEnergyStationBrand($energyStationBrand)
             ->setEnergyStationId($message->getEnergyStationId()->getId())
             ->setPop($message->getPop())
-            ->setElement($element)
+            ->setType($message->getType())
             ->setAddress($address)
             ->setGooglePlace(new GooglePlace())
             ->setHash($message->getHash())
@@ -89,13 +89,16 @@ final class CreateEnergyStationMessageHandler
         $energyStation->getImage()->setMimeType('jpg');
         $energyStation->getImage()->setSize(86110);
 
-        $this->isEnergyStationClosed($element, $energyStation);
+        if (EnergyStationReference::GAS === $energyStation->getType()) {
+            unset($element['prix']);
+            $energyStation->setElement($element);
+            $this->isEnergyStationClosed($element, $energyStation);
+            $this->energyStationService->createEnergyStationServices($energyStation, $element);
+        }
 
         if (null !== $energyStation->getClosedAt()) {
             $energyStation->setStatus(EnergyStationStatusReference::CLOSED);
         }
-
-        $this->energyStationService->createEnergyStationServices($energyStation, $element);
 
         $this->em->persist($energyStation);
         $this->em->flush();

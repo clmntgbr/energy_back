@@ -11,7 +11,7 @@ parameters:
   latitudeDefault: "%env(LATITUDE_DEFAULT)%"
   longitudeDefault: "%env(LONGITUDE_DEFAULT)%"
   radiusDefault: "%env(RADIUS_DEFAULT)%"
-  gasTypeUuidDefault: "%env(GAS_TYPE_UUID_DEFAULT)%"
+  energyTypeUuidDefault: "%env(ENERGY_TYPE_UUID_DEFAULT)%"
 
 services:
     _defaults:
@@ -30,7 +30,7 @@ services:
           string $latitudeDefault: "%latitudeDefault%"
           string $longitudeDefault: "%longitudeDefault%"
           string $radiusDefault: "%radiusDefault%"
-          string $gasTypeUuidDefault: "%gasTypeUuidDefault%"
+          string $energyTypeUuidDefault: "%energyTypeUuidDefault%"
 
     App\:
         resource: "../src/"

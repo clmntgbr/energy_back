@@ -26,9 +26,13 @@ class EnergyStation
     use TimestampableEntity;
     use BlameableEntity;
 
-    #[ORM\Column(type: Types::STRING, length: 10)]
+    #[ORM\Column(type: Types::STRING)]
     #[Groups(['get_energy_station'])]
     private string $pop;
+
+    #[ORM\Column(type: Types::STRING, length: 5)]
+    #[Groups(['get_energy_station'])]
+    private string $type;
 
     #[ORM\Column(type: Types::STRING, length: 20)]
     #[Groups(['get_energy_stations', 'get_energy_station'])]
@@ -176,6 +180,18 @@ class EnergyStation
     public function setPop(string $pop): static
     {
         $this->pop = $pop;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

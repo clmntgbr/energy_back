@@ -12,6 +12,7 @@ final class CreateEnergyStationMessage
     public function __construct(
         private readonly EnergyStationId $energyStationId,
         private readonly string          $pop,
+        private readonly string $type,
         private readonly string          $hash,
         private readonly string          $cp,
         private readonly ?string         $longitude,
@@ -32,6 +33,11 @@ final class CreateEnergyStationMessage
     public function getHash(): string
     {
         return $this->hash;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 
     public function getPop(): string

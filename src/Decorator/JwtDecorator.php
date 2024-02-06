@@ -2,9 +2,9 @@
 
 namespace App\Decorator;
 
-use ApiPlatform\Core\OpenApi\Model\PathItem;
 use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\OpenApi\Model\Operation;
+use ApiPlatform\OpenApi\Model\PathItem;
 use ApiPlatform\OpenApi\Model\RequestBody;
 use ApiPlatform\OpenApi\OpenApi;
 

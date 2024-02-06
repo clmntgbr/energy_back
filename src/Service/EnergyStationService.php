@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\EnergyStation;
 use App\Entity\EntityId\EnergyStationId;
+use App\Lists\EnergyStationReference;
 use App\Message\CreateEnergyStationMessage;
 use App\Message\UpdateEnergyStationMessage;
 use Cocur\Slugify\Slugify;
@@ -43,6 +44,7 @@ final class EnergyStationService
             new CreateEnergyStationMessage(
                 $energyStationId,
                 $this->convert($datum['@attributes']['pop'] ?? ''),
+                EnergyStationReference::GAS,
                 $hash,
                 $this->convert($datum['@attributes']['cp'] ?? ''),
                 $this->convert($datum['@attributes']['longitude'] ?? ''),

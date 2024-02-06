@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\ApiResource\Controller\GetAddressCities;
 use App\ApiResource\Controller\GetAddressDepartments;
 use App\Entity\Traits\IdentifyTraits;
@@ -15,7 +17,27 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(
+            name: 'address_cities',
+            uriTemplate: '/address/cities',
+            controller: GetAddressCities::class,
+            read: false,
+            paginationEnabled: false,
+            normalizationContext: ['skip_null_values' => false, 'groups' => ['get_address_cities', 'common']],
+        ),
+        new GetCollection(
+            name: 'address_departments',
+            uriTemplate: '/address/departments',
+            controller: GetAddressDepartments::class,
+            read: false,
+            paginationEnabled: false,
+            normalizationContext: ['skip_null_values' => false, 'groups' => ['get_address_departments', 'common']],
+        )
+    ]
+)]
 class Address
 {
     use IdentifyTraits;
