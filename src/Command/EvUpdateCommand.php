@@ -2,19 +2,19 @@
 
 namespace App\Command;
 
-use App\Service\GasUpdateCommandService;
+use App\Service\EvUpdateCommandService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: 'app:gas:update',
+    name: 'app:ev:update',
 )]
-class GasUpdateCommand extends Command
+class EvUpdateCommand extends Command
 {
     public function __construct(
-        private GasUpdateCommandService $gasUpdateCommandService,
+        private EvUpdateCommandService $evUpdateCommandService,
     )
     {
         parent::__construct(self::getDefaultName());
@@ -24,9 +24,10 @@ class GasUpdateCommand extends Command
     {
     }
 
+    /** @throws \Exception */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->gasUpdateCommandService->invoke();
+        $this->evUpdateCommandService->invoke();
         return Command::SUCCESS;
     }
 }

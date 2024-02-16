@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\EnergyStation;
 use App\Entity\EntityId\EnergyStationId;
-use App\Lists\EnergyStationReference;
 use App\Message\CreateEnergyStationMessage;
 use App\Message\UpdateEnergyStationMessage;
 use Cocur\Slugify\Slugify;
@@ -38,23 +37,29 @@ final class EnergyStationService
         return $energyStation;
     }
 
-    public function createEnergyStationMessage(EnergyStationId $energyStationId, string $hash, array $datum)
+    public function createEnergyStationMessage(EnergyStationId $energyStationId, string $hash, array $datum, string $type)
     {
         $this->messageBus->dispatch(
             new CreateEnergyStationMessage(
                 $energyStationId,
+                $datum['name'] ?? null,
                 $this->convert($datum['@attributes']['pop'] ?? ''),
-                EnergyStationReference::GAS,
+                $type,
                 $hash,
                 $this->convert($datum['@attributes']['cp'] ?? ''),
                 $this->convert($datum['@attributes']['longitude'] ?? ''),
                 $this->convert($datum['@attributes']['latitude'] ?? ''),
                 $this->convert($datum['adresse'] ?? ''),
                 $this->convert($datum['ville'] ?? ''),
-                'FRANCE',
                 $datum,
             ),
         );
+    }
+
+    public function getHash(array $datum): string
+    {
+        $element = $datum['services'] ?? [];
+        return hash('sha256', json_encode($element));
     }
 
     private function convert($datum): string

@@ -110,6 +110,9 @@ npm-install:
 npm-build:
 	$(PHP) npm run build
 
+ev-update:
+	$(PHP) bin/console app:ev:update
+
 gas-download:
 	$(PHP) bin/console app:gas:download
 

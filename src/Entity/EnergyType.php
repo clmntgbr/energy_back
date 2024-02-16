@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Traits\IdentifyTraits;
 use App\Entity\Traits\NameTraits;
 use App\Repository\EnergyTypeRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -23,6 +24,10 @@ class EnergyType
     use NameTraits;
     use TimestampableEntity;
     use BlameableEntity;
+
+    #[ORM\Column(type: Types::STRING, length: 5)]
+    #[Groups(['get_energy_types', 'get_energy_type'])]
+    private string $type;
 
     #[Vich\UploadableField(mapping: 'energy_types_image', fileNameProperty: 'image.name', size: 'image.size', mimeType: 'image.mimeType', originalName: 'image.originalName', dimensions: 'image.dimensions')]
     private ?File $imageFile = null;
@@ -49,6 +54,18 @@ class EnergyType
     public function setImage(EmbeddedFile $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

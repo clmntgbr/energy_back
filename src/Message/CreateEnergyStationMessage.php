@@ -11,15 +11,15 @@ final class CreateEnergyStationMessage
      */
     public function __construct(
         private readonly EnergyStationId $energyStationId,
+        private readonly ?string         $name,
         private readonly string          $pop,
-        private readonly string $type,
+        private readonly string          $type,
         private readonly string          $hash,
         private readonly string          $cp,
         private readonly ?string         $longitude,
         private readonly ?string         $latitude,
         private readonly string          $street,
         private readonly string          $city,
-        private readonly string          $country,
         private readonly array           $element
     )
     {
@@ -28,6 +28,11 @@ final class CreateEnergyStationMessage
     public function getEnergyStationId(): EnergyStationId
     {
         return $this->energyStationId;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
     }
 
     public function getHash(): string
@@ -68,11 +73,6 @@ final class CreateEnergyStationMessage
     public function getCity(): string
     {
         return $this->city;
-    }
-
-    public function getCountry(): string
-    {
-        return $this->country;
     }
 
     /**

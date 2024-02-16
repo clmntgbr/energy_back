@@ -15,7 +15,6 @@ use App\Service\EnergyStationService;
 use App\Service\FileSystemService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
@@ -32,20 +31,16 @@ final class CreateEnergyStationMessageHandler
     {
     }
 
-    public function __invoke(CreateEnergyStationMessage $message)
+    public function __invoke(CreateEnergyStationMessage $message): void
     {
-        if (!$this->em->isOpen()) {
-            $this->em->refresh();
-        }
-
         $energyStation = $this->energyStationRepository->findOneBy(['energyStationId' => $message->getEnergyStationId()->getId()]);
 
         if ($energyStation instanceof EnergyStation) {
-            throw new UnrecoverableMessageHandlingException(sprintf('Energy Station already exist (energyStationId : %s)', $message->getEnergyStationId()->getId()));
+            return;
         }
 
         if ('' === $message->getLatitude() || '' === $message->getLongitude()) {
-            throw new UnrecoverableMessageHandlingException(sprintf('Energy Station longitude/latitude is empty (energyStationId : %s)', $message->getEnergyStationId()->getId()));
+            return;
         }
 
         $user = $this->userRepository->findOneBy(['email' => 'clement@gmail.com']);
@@ -59,14 +54,14 @@ final class CreateEnergyStationMessageHandler
             ->setPostalCode($message->getCp())
             ->setLongitude($message->getLongitude() ? strval(floatval($message->getLongitude()) / 100000) : null)
             ->setLatitude($message->getLatitude() ? strval(floatval($message->getLatitude()) / 100000) : null)
-            ->setCountry($message->getCountry())
             ->setStreet($message->getStreet())
-            ->setVicinity(sprintf('%s, %s %s, %s', $message->getStreet(), $message->getCp(), $message->getCity(), $message->getCountry()));
+            ->setVicinity(sprintf('%s, %s %s', $message->getStreet(), $message->getCp(), $message->getCity()));
 
         $element = $message->getElement();
 
         $energyStation = new EnergyStation();
         $energyStation
+            ->setName($message->getName())
             ->setCreatedBy($user)
             ->setUpdatedBy($user)
             ->setHasEnergyStationBrandVerified(false)

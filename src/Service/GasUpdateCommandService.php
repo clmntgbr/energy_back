@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\EntityId\EnergyStationId;
 use App\Entity\EntityId\EnergyTypeId;
+use App\Lists\EnergyStationReference;
 use App\Message\CreateEnergyPriceMessage;
 use App\Repository\EnergyStationRepository;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -42,10 +43,10 @@ class GasUpdateCommandService
                 continue;
             }
 
-            $hash = $this->getHash($datum);
+            $hash = $this->energyStationService->getHash($datum);
 
             if (!array_key_exists($energyStationId->getId(), $energyStations)) {
-                $this->energyStationService->createEnergyStationMessage($energyStationId, $hash, $datum);
+                $this->energyStationService->createEnergyStationMessage($energyStationId, $hash, $datum, EnergyStationReference::GAS);
             }
 
             if (array_key_exists($energyStationId->getId(), $energyStations) && $energyStations[$energyStationId->getId()]['hash'] !== $hash) {
@@ -54,12 +55,6 @@ class GasUpdateCommandService
 
             $this->createEnergyPricesMessage($energyStationId, $datum);
         }
-    }
-
-    private function getHash(array $datum): string
-    {
-        $element = $datum['services'] ?? [];
-        return hash('sha256', json_encode($element));
     }
 
     private function createEnergyPricesMessage(EnergyStationId $energyStationId, array $datum)

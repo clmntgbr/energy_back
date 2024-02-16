@@ -11,21 +11,21 @@ vich_uploader:
         namer: Vich\UploaderBundle\Naming\UniqidNamer
         delete_on_update: true
         delete_on_remove: true
-      gas_stations_image:
-        uri_prefix: /images/gas_stations
-        upload_destination: gas_stations.storage
+      energy_stations_image:
+        uri_prefix: /images/energy_stations
+        upload_destination: energy_stations.storage
         namer: Vich\UploaderBundle\Naming\UniqidNamer
         delete_on_update: true
         delete_on_remove: true
-      gas_stations_brand_image:
-        uri_prefix: /images/gas_stations_brand
-        upload_destination: gas_stations_brand.storage
+      energy_stations_brand_image:
+        uri_prefix: /images/energy_stations_brand
+        upload_destination: energy_stations_brand.storage
         namer: Vich\UploaderBundle\Naming\UniqidNamer
         delete_on_update: true
         delete_on_remove: true
-      gas_types_image:
-        uri_prefix: /images/gas_types
-        upload_destination: gas_types.storage
+      energy_types_image:
+        uri_prefix: /images/energy_types
+        upload_destination: energy_types.storage
         namer: Vich\UploaderBundle\Naming\UniqidNamer
         delete_on_update: true
         delete_on_remove: true

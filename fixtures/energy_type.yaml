@@ -1,6 +1,7 @@
 App\Entity\EnergyType:
-  energy_type_in_creation:
+  energy_type_gazole:
     id: 1
+    type: '<(App\Lists\EnergyStationReference::GAS)>'
     uuid: "b867eebc-fe90-4de5-acfc-ffc1db06c2e7"
     reference: '<(App\Lists\EnergyTypeReference::GAZOLE)>'
     name: "DIESEL B7"
@@ -10,8 +11,9 @@ App\Entity\EnergyType:
     image.size: "37528"
     image.dimensions: [ "500", "500" ]
 
-  energy_type_not_found_in_text_search:
+  energy_type_sp95:
     id: 2
+    type: '<(App\Lists\EnergyStationReference::GAS)>'
     uuid: "e9349b11-2fae-49dd-a9b8-55e36592ef7f"
     reference: '<(App\Lists\EnergyTypeReference::SP95)>'
     name: "SP95"
@@ -21,8 +23,9 @@ App\Entity\EnergyType:
     image.size: "33288"
     image.dimensions: [ "631", "631" ]
 
-  energy_type_not_found_in_details:
+  energy_type_e85:
     id: 3
+    type: '<(App\Lists\EnergyStationReference::GAS)>'
     uuid: "7778d8a7-6b50-4503-947f-864834568f11"
     reference: '<(App\Lists\EnergyTypeReference::E85)>'
     name: "E85"
@@ -32,8 +35,9 @@ App\Entity\EnergyType:
     image.size: "110284"
     image.dimensions: [ "640", "640" ]
 
-  energy_type_found_on_gov_map:
+  energy_type_gplc:
     id: 4
+    type: '<(App\Lists\EnergyStationReference::GAS)>'
     uuid: "e0ccc452-f995-4765-954d-e9f96ad48b9c"
     reference: '<(App\Lists\EnergyTypeReference::GPLC)>'
     name: "GPL"
@@ -43,8 +47,9 @@ App\Entity\EnergyType:
     image.size: "37528"
     image.dimensions: [ "500", "500" ]
 
-  energy_type_found_in_textsearch:
+  energy_type_e10:
     id: 5
+    type: '<(App\Lists\EnergyStationReference::GAS)>'
     uuid: "719190d5-dd67-4f06-b308-39d3326ab749"
     reference: '<(App\Lists\EnergyTypeReference::E10)>'
     name: "E10"
@@ -54,8 +59,9 @@ App\Entity\EnergyType:
     image.size: "33288"
     image.dimensions: [ "631", "631" ]
 
-  energy_type_place_id_anomaly:
+  energy_type_sp98:
     id: 6
+    type: '<(App\Lists\EnergyStationReference::GAS)>'
     uuid: "f7df3316-aeab-417c-ac4f-84a5e05bdd71"
     reference: '<(App\Lists\EnergyTypeReference::SP98)>'
     name: "SP98"

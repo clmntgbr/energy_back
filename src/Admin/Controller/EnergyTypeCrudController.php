@@ -3,11 +3,13 @@
 namespace App\Admin\Controller;
 
 use App\Entity\EnergyType;
+use App\Lists\EnergyStationReference;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -34,11 +36,23 @@ class EnergyTypeCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $energyTypes = [
+            EnergyStationReference::GAS => EnergyStationReference::GAS,
+            EnergyStationReference::EV => EnergyStationReference::EV,
+            EnergyStationReference::MIX => EnergyStationReference::MIX,
+        ];
+
         return [
             IdField::new('id')->hideOnIndex()->setDisabled(),
             TextField::new('uuid')->setDisabled(),
             TextField::new('reference')->setDisabled(),
             TextField::new('name'),
+            ChoiceField::new('type')
+                ->setLabel('Change type')
+                ->autocomplete()
+                ->setRequired(true)
+                ->renderAsNativeWidget()
+                ->setChoices($energyTypes),
             DateTimeField::new('createdAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()->hideOnForm()->hideOnIndex(),
