@@ -46,6 +46,7 @@ final class CreateEvInformationMessageHandler
         ;
 
         $energyStation->setEvInformation($evInformation);
+        
         $this->em->persist($evInformation);
         $this->em->persist($energyStation);
         $this->em->flush();
