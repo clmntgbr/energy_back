@@ -20,6 +20,7 @@ use function Safe\json_encode;
 
 #[ORM\Entity(repositoryClass: EnergyStationRepository::class)]
 #[ApiResource]
+#[Vich\Uploadable]
 class EnergyStation
 {
     use IdentifyTraits;
@@ -34,7 +35,7 @@ class EnergyStation
     #[Groups(['get_energy_station'])]
     private string $type;
 
-    #[ORM\Column(type: Types::STRING, length: 20)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     #[Groups(['get_energy_stations', 'get_energy_station'])]
     private string $energyStationId;
 
@@ -81,6 +82,9 @@ class EnergyStation
     #[ORM\ManyToOne(targetEntity: EnergyStationBrand::class, cascade: ['persist'], fetch: 'LAZY')]
     #[Groups(['get_energy_station'])]
     private EnergyStationBrand $energyStationBrand;
+
+    #[ORM\ManyToOne(targetEntity: EvInformation::class, cascade: ['persist'], fetch: 'LAZY')]
+    private ?EvInformation $evInformation;
 
     #[ORM\OneToMany(mappedBy: 'energyStation', targetEntity: EnergyPrice::class, cascade: ['persist', 'remove'], fetch: 'LAZY')]
     private Collection $energyPrices;
@@ -583,6 +587,18 @@ class EnergyStation
     public function initServices(): static
     {
         $this->services = [];
+        return $this;
+    }
+
+    public function getEvInformation(): ?EvInformation
+    {
+        return $this->evInformation;
+    }
+
+    public function setEvInformation(?EvInformation $evInformation): static
+    {
+        $this->evInformation = $evInformation;
+
         return $this;
     }
 }

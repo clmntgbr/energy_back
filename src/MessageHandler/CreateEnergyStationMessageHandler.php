@@ -4,10 +4,14 @@ namespace App\MessageHandler;
 
 use App\Entity\Address;
 use App\Entity\EnergyStation;
+use App\Entity\EntityId\AddressId;
+use App\Entity\EntityId\EnergyStationId;
 use App\Entity\GooglePlace;
 use App\Lists\EnergyStationReference;
 use App\Lists\EnergyStationStatusReference;
 use App\Message\CreateEnergyStationMessage;
+use App\Message\CreateEvInformationMessage;
+use App\Message\GeocodingAddressMessage;
 use App\Repository\EnergyStationBrandRepository;
 use App\Repository\EnergyStationRepository;
 use App\Repository\UserRepository;
@@ -57,6 +61,10 @@ final class CreateEnergyStationMessageHandler
             ->setStreet($message->getStreet())
             ->setVicinity(sprintf('%s, %s %s', $message->getStreet(), $message->getCp(), $message->getCity()));
 
+        if ($message->getType() === EnergyStationReference::EV) {
+            $address->setVicinity(sprintf('%s', $message->getStreet()));
+        }
+
         $element = $message->getElement();
 
         $energyStation = new EnergyStation();
@@ -86,10 +94,17 @@ final class CreateEnergyStationMessageHandler
 
         if (EnergyStationReference::GAS === $energyStation->getType()) {
             unset($element['prix']);
-            $energyStation->setElement($element);
             $this->isEnergyStationClosed($element, $energyStation);
             $this->energyStationService->createEnergyStationServices($energyStation, $element);
         }
+
+        if (EnergyStationReference::EV === $energyStation->getType()) {
+            $this->messageBus->dispatch(
+                new CreateEvInformationMessage(new EnergyStationId($energyStation->getEnergyStationId()), $element)
+            );
+        }
+
+        $energyStation->setElement($element);
 
         if (null !== $energyStation->getClosedAt()) {
             $energyStation->setStatus(EnergyStationStatusReference::CLOSED);
@@ -98,9 +113,9 @@ final class CreateEnergyStationMessageHandler
         $this->em->persist($energyStation);
         $this->em->flush();
 
-//        $this->messageBus->dispatch(
-//            new GeocodingAddressMessage(new AddressId($energyStation->getAddress()->getId()), new EnergyStationId($energyStation->getEnergyStationId()))
-//        );
+        $this->messageBus->dispatch(
+            new GeocodingAddressMessage(new AddressId($energyStation->getAddress()->getId()), new EnergyStationId($energyStation->getEnergyStationId()))
+        );
     }
 
     /**

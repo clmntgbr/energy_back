@@ -5,7 +5,7 @@ namespace App\Message;
 use App\Entity\EntityId\AddressId;
 use App\Entity\EntityId\EnergyStationId;
 
-final class GeocodingAddressMessage
+final readonly class GeocodingAddressMessage
 {
     public function __construct(
         private AddressId       $addressId,

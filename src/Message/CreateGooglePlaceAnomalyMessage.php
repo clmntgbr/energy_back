@@ -4,10 +4,10 @@ namespace App\Message;
 
 use App\Entity\EntityId\EnergyStationId;
 
-final class CreateGooglePlaceAnomalyMessage
+final readonly class CreateGooglePlaceAnomalyMessage
 {
     public function __construct(
-        private readonly EnergyStationId $energyStationId
+        private EnergyStationId $energyStationId
     )
     {
     }

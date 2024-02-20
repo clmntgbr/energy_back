@@ -5,13 +5,13 @@ namespace App\Message;
 use App\Entity\EntityId\EnergyStationId;
 use App\Entity\EntityId\EnergyTypeId;
 
-final class CreateEnergyPriceMessage
+final readonly class CreateEnergyPriceMessage
 {
     public function __construct(
-        private readonly EnergyStationId $energyStationId,
-        private readonly EnergyTypeId    $energyTypeId,
-        private readonly ?string         $date,
-        private readonly ?string         $value
+        private EnergyStationId $energyStationId,
+        private EnergyTypeId    $energyTypeId,
+        private ?string         $date,
+        private ?string         $value
     )
     {
     }

@@ -8,7 +8,7 @@ class EnergyStationReference
 {
     use ListTrait;
 
-    public const GAS = 'gas';
-    public const EV = 'ev';
-    public const MIX = 'mix';
+    public const GAS = 'GAS';
+    public const EV = 'EV';
+    public const MIX = 'MIX';
 }

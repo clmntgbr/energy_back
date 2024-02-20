@@ -73,3 +73,4 @@ framework:
       App\Message\CreateGooglePlaceAnomalyMessage: async_priority_high
       App\Message\CreateGooglePlaceDetailsMessage: async_priority_high
       App\Message\UpdateEnergyStationClosedMessage: async_priority_high
+      App\Message\CreateEvInformationMessage: async_priority_low

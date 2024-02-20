@@ -110,6 +110,9 @@ npm-install:
 npm-build:
 	$(PHP) npm run build
 
+ev-download:
+	$(PHP) bin/console app:ev:download
+
 ev-update:
 	$(PHP) bin/console app:ev:update
 
@@ -120,10 +123,10 @@ gas-update:
 	$(PHP) bin/console app:gas:update
 
 status-update:
-	$(PHP) bin/console app:gas-status:update
+	$(PHP) bin/console app:status:update
 
 status-anomaly:
-	$(PHP) bin/console app:gas-status:anomaly
+	$(PHP) bin/console app:status:anomaly
 
 ## QA
 cs-fixer:

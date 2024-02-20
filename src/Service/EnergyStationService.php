@@ -21,10 +21,6 @@ final class EnergyStationService
 
     public function getEnergyStationId($energyStationId): EnergyStationId
     {
-        if (empty($energyStationId)) {
-            throw new \Exception();
-        }
-
         return new EnergyStationId($energyStationId);
     }
 
@@ -83,7 +79,6 @@ final class EnergyStationService
                 $this->convert($datum['@attributes']['latitude'] ?? ''),
                 $this->convert($datum['adresse'] ?? ''),
                 $this->convert($datum['ville'] ?? ''),
-                'FRANCE',
                 $datum,
             ),
         );

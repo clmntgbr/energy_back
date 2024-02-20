@@ -9,6 +9,7 @@ use App\Entity\EnergyService;
 use App\Entity\EnergyStation;
 use App\Entity\EnergyStationBrand;
 use App\Entity\EnergyType;
+use App\Entity\EvInformation;
 use App\Entity\GooglePlace;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -59,6 +60,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('EnergyPrice', 'fas fa-list', EnergyPrice::class);
         yield MenuItem::linkToCrud('EnergyType', 'fas fa-list', EnergyType::class);
         yield MenuItem::linkToCrud('Currency', 'fas fa-list', Currency::class);
+        yield MenuItem::linkToCrud('EvInformation', 'fas fa-list', EvInformation::class);
         yield MenuItem::linkToCrud('GooglePlace', 'fas fa-list', GooglePlace::class);
         yield MenuItem::linkToCrud('Address', 'fas fa-list', Address::class);
         yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);

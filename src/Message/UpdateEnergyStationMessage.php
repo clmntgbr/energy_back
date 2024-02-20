@@ -4,22 +4,18 @@ namespace App\Message;
 
 use App\Entity\EntityId\EnergyStationId;
 
-final class UpdateEnergyStationMessage
+final readonly class UpdateEnergyStationMessage
 {
-    /**
-     * @param array<mixed> $element
-     */
     public function __construct(
-        private readonly EnergyStationId $energyStationId,
-        private readonly string          $pop,
-        private readonly string          $hash,
-        private readonly string          $cp,
-        private readonly ?string         $longitude,
-        private readonly ?string         $latitude,
-        private readonly string          $street,
-        private readonly string          $city,
-        private readonly string          $country,
-        private readonly array           $element
+        private EnergyStationId $energyStationId,
+        private string          $pop,
+        private string          $hash,
+        private string          $cp,
+        private ?string         $longitude,
+        private ?string         $latitude,
+        private string          $street,
+        private string          $city,
+        private array           $element
     )
     {
     }
@@ -64,15 +60,7 @@ final class UpdateEnergyStationMessage
         return $this->city;
     }
 
-    public function getCountry(): string
-    {
-        return $this->country;
-    }
-
-    /**
-     * @return array<mixed>
-     */
-    public function getElement()
+    public function getElement(): array
     {
         return $this->element;
     }

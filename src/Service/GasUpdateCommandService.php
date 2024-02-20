@@ -34,12 +34,12 @@ class GasUpdateCommandService
 
         $data = json_decode($content, true);
 
-        $energyStations = $this->energyStationRepository->findEnergyStationsById();
+        $energyStations = $this->energyStationRepository->findEnergyStationsById(EnergyStationReference::GAS);
 
         foreach ($data as $datum) {
             $energyStationId = $this->energyStationService->getEnergyStationId($datum['@attributes']['id']);
 
-            if (!in_array(substr($energyStationId->getId(), 0, 2), ['94'])) { // for dev only
+            if (!in_array(substr($energyStationId->getId(), 0, 2), ['94'])) {
                 continue;
             }
 

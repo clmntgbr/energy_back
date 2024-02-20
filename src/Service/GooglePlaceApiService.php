@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\EnergyStation;
+use App\Lists\EnergyStationReference;
 use GuzzleHttp\Client;
 
 class GooglePlaceApiService
@@ -16,9 +17,7 @@ class GooglePlaceApiService
 
     public function placeTextsearch(EnergyStation $energyStation): ?string
     {
-        $url = rawurlencode($this->stripAccents(sprintf('%s %s %s', $energyStation->getAddress()->getNumber(), $energyStation->getAddress()->getStreet(), $energyStation->getAddress()->getCity())));
-        $url = sprintf($this->placeTextsearchUrl, $url, $this->googleApiKey);
-
+        $url = $this->createPlaceTextsearchUrl($energyStation);
         $client = new Client();
         $response = $client->request('GET', $url);
 
@@ -32,6 +31,17 @@ class GooglePlaceApiService
         }
 
         return null;
+    }
+
+    private function createPlaceTextsearchUrl(EnergyStation $energyStation): string
+    {
+        if ($energyStation->getType() === EnergyStationReference::EV) {
+            $url = rawurlencode($this->stripAccents(sprintf('borne de recharge de véhicules électriques %s %s %s', $energyStation->getAddress()->getStreet(), $energyStation->getAddress()->getCity(), $energyStation->getAddress()->getPostalCode())));
+            return sprintf($this->placeTextsearchUrl, $url, $this->googleApiKey);
+        }
+
+        $url = rawurlencode($this->stripAccents(sprintf('%s %s %s', $energyStation->getAddress()->getNumber(), $energyStation->getAddress()->getStreet(), $energyStation->getAddress()->getCity())));
+        return sprintf($this->placeTextsearchUrl . '&type=gas_station', $url, $this->googleApiKey);
     }
 
     public function placeDetails(EnergyStation $energyStation)

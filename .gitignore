@@ -29,3 +29,4 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 /public/gas/gas.json
+/public/ev/ev.json

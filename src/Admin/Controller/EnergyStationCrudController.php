@@ -20,6 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
@@ -86,6 +87,9 @@ class EnergyStationCrudController extends AbstractCrudController
                 ->hideOnIndex()
                 ->setDisabled()
                 ->setColumns('col-sm-12 col-lg-12 col-xxl-12'),
+            TextField::new('type')
+                ->setDisabled()
+                ->setColumns('col-sm-12 col-lg-12 col-xxl-12'),
             TextField::new('name')
                 ->setColumns('col-sm-12 col-lg-12 col-xxl-12'),
             TextField::new('pop')
@@ -122,6 +126,42 @@ class EnergyStationCrudController extends AbstractCrudController
                 ->hideOnIndex()
                 ->setDisabled()
                 ->setLabel('PreviousEnergyPrices'),
+
+            FormField::addPanel('EvInformation'),
+            IdField::new('evInformation.id')
+                ->hideOnIndex()
+                ->setDisabled()
+                ->setLabel('Id')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            IdField::new('evInformation.uuid')
+                ->hideOnIndex()
+                ->setDisabled()
+                ->setLabel('Uuid')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            TextField::new('evInformation.numberRechargePoint')
+                ->hideOnIndex()
+                ->setLabel('Nb Pdc')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            TextField::new('evInformation.maximumPower')
+                ->hideOnIndex()
+                ->setLabel('Maximum Power')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            TextField::new('evInformation.typeOfCharging')
+                ->hideOnIndex()
+                ->setLabel('Type Charging')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            TextField::new('evInformation.chargingAccess')
+                ->hideOnIndex()
+                ->setLabel('Charging Access')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            TextareaField::new('evInformation.accessibility')
+                ->hideOnIndex()
+                ->setLabel('Accessibility')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-6'),
+            TextareaField::new('evInformation.observations')
+                ->hideOnIndex()
+                ->setLabel('Observations')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-6'),
 
             FormField::addPanel('GooglePlace'),
             IdField::new('googlePlace.id')

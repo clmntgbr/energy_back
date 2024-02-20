@@ -4,10 +4,11 @@ namespace App\Message;
 
 use App\Entity\EntityId\EnergyStationId;
 
-final readonly class UpdateEnergyStationClosedMessage
+final readonly class CreateEvInformationMessage
 {
     public function __construct(
-        private EnergyStationId $energyStationId
+        private EnergyStationId $energyStationId,
+        private array           $element
     )
     {
     }
@@ -15,5 +16,10 @@ final readonly class UpdateEnergyStationClosedMessage
     public function getEnergyStationId(): EnergyStationId
     {
         return $this->energyStationId;
+    }
+
+    public function getElement(): array
+    {
+        return $this->element;
     }
 }

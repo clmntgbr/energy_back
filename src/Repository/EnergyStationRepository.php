@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\EnergyStation;
 use App\Lists\EnergyStationStatusReference;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,14 +23,17 @@ class EnergyStationRepository extends ServiceEntityRepository
         parent::__construct($registry, EnergyStation::class);
     }
 
-    public function findEnergyStationsById(): array
+    public function findEnergyStationsById(?string $type = null): array
     {
-        $query = $this->createQueryBuilder('s')
+        $builder = $this->createQueryBuilder('s')
             ->indexBy('s', 's.energyStationId')
-            ->select('s.energyStationId, s.hash')
-            ->getQuery();
+            ->select('s.energyStationId, s.hash');
 
-        return $query->getArrayResult();
+        if ($type) {
+            $builder->where("s.type = '$type'");
+        }
+
+        return $builder->getQuery()->getArrayResult();
     }
 
     public function findEnergyStationsByStatus(string $status): array
@@ -110,7 +114,7 @@ class EnergyStationRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('p')
             ->where('p.status IN (:status)')
-            ->setParameter('status', [EnergyStationStatusReference::WAITING_VALIDATION, EnergyStationStatusReference::PLACE_ID_ANOMALY])
+            ->setParameter('status', [EnergyStationStatusReference::WAITING_VALIDATION, EnergyStationStatusReference::PLACE_ID_ANOMALY, EnergyStationStatusReference::VALIDATION_REJECTED])
             ->orderBy('RAND()')
             ->setMaxResults(1)
             ->getQuery();
