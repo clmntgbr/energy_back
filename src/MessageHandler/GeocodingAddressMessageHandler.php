@@ -20,7 +20,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 #[AsMessageHandler()]
 final class GeocodingAddressMessageHandler
 {
-    public const CONFIDENCE_ERROR = 0.8;
+    public const CONFIDENCE_ERROR = 0.9;
 
     public function __construct(
         private EntityManagerInterface           $em,
@@ -84,6 +84,6 @@ final class GeocodingAddressMessageHandler
         $this->addressService->hydrate($address, $data);
         $this->energyStationService->setEnergyStationStatus($energyStation, EnergyStationStatusReference::ADDRESS_FORMATED);
 
-//        return $this->messageBus->dispatch(new CreateGooglePlaceTextsearchMessage($message->getEnergyStationId()));
+       return $this->messageBus->dispatch(new CreateGooglePlaceTextsearchMessage($message->getEnergyStationId()));
     }
 }

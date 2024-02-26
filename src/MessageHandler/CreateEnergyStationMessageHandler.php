@@ -61,9 +61,9 @@ final class CreateEnergyStationMessageHandler
             ->setStreet($message->getStreet())
             ->setVicinity(sprintf('%s, %s %s', $message->getStreet(), $message->getCp(), $message->getCity()));
 
-        if ($message->getType() === EnergyStationReference::EV) {
-            $address->setVicinity(sprintf('%s', $message->getStreet()));
-        }
+        // if ($message->getType() === EnergyStationReference::EV) {
+        //     $address->setVicinity(sprintf('%s', $message->getStreet()));
+        // }
 
         $element = $message->getElement();
 

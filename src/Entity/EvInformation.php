@@ -5,6 +5,9 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\EvInformationRepository;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
@@ -30,17 +33,16 @@ class EvInformation
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $maximumPower;
 
-    #[ORM\Column(type: Types::STRING, nullable: true)]
-    private ?string $typeOfCharging;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?DateTime $dateCreated;
 
-    #[ORM\Column(type: Types::STRING, nullable: true)]
-    private ?string $chargingAccess;
+    #[ORM\OneToMany(targetEntity: EvRechargePoint::class, mappedBy: 'evinformation')]
+    private Collection $evRechargePoints;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $accessibility;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $observations;
+    public function __construct()
+    {
+        $this->evRechargePoints = new ArrayCollection();
+    }
 
     public function getNumberRechargePoint(): ?string
     {
@@ -66,50 +68,44 @@ class EvInformation
         return $this;
     }
 
-    public function getTypeOfCharging(): ?string
+    public function getDateCreated(): ?\DateTime
     {
-        return $this->typeOfCharging;
+        return $this->dateCreated;
     }
 
-    public function setTypeOfCharging(?string $typeOfCharging): static
+    public function setDateCreated(?\DateTime $dateCreated): static
     {
-        $this->typeOfCharging = $typeOfCharging;
+        $this->dateCreated = $dateCreated;
 
         return $this;
     }
 
-    public function getChargingAccess(): ?string
+    /**
+     * @return Collection<int, EvRechargePoint>
+     */
+    public function getEvRechargePoints(): Collection
     {
-        return $this->chargingAccess;
+        return $this->evRechargePoints;
     }
 
-    public function setChargingAccess(?string $chargingAccess): static
+    public function addEvRechargePoint(EvRechargePoint $evRechargePoint): static
     {
-        $this->chargingAccess = $chargingAccess;
+        if (!$this->evRechargePoints->contains($evRechargePoint)) {
+            $this->evRechargePoints->add($evRechargePoint);
+            $evRechargePoint->setEvinformation($this);
+        }
 
         return $this;
     }
 
-    public function getAccessibility(): ?string
+    public function removeEvRechargePoint(EvRechargePoint $evRechargePoint): static
     {
-        return $this->accessibility;
-    }
-
-    public function setAccessibility(?string $accessibility): static
-    {
-        $this->accessibility = $accessibility;
-
-        return $this;
-    }
-
-    public function getObservations(): ?string
-    {
-        return $this->observations;
-    }
-
-    public function setObservations(?string $observations): static
-    {
-        $this->observations = $observations;
+        if ($this->evRechargePoints->removeElement($evRechargePoint)) {
+            // set the owning side to null (unless already changed)
+            if ($evRechargePoint->getEvinformation() === $this) {
+                $evRechargePoint->setEvinformation(null);
+            }
+        }
 
         return $this;
     }

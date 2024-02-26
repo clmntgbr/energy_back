@@ -29,7 +29,19 @@ class ValidationCrudController extends AbstractController
         }
 
         if (null === $energyStationId) {
-            $energyStation = $energyStationRepository->findRandomEnergyStation();
+            $energyStation = $energyStationRepository->findRandomEnergyStation(EnergyStationStatusReference::WAITING_VALIDATION);
+        }
+
+        if (null === $energyStation) {
+            $energyStation = $energyStationRepository->findRandomEnergyStation(EnergyStationStatusReference::PLACE_ID_ANOMALY);
+        }
+
+        if (null === $energyStation) {
+            $energyStation = $energyStationRepository->findRandomEnergyStation(EnergyStationStatusReference::ADDRESS_ERROR_FORMATED);
+        }
+
+        if (null === $energyStation) {
+            $energyStation = $energyStationRepository->findRandomEnergyStation(EnergyStationStatusReference::VALIDATION_REJECTED);
         }
 
         $energyStations = $energyStationRepository->getEnergyStationGooglePlaceByPlaceId($energyStation);

@@ -110,11 +110,11 @@ class EnergyStationRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function findRandomEnergyStation(): ?EnergyStation
+    public function findRandomEnergyStation(?string $status): ?EnergyStation
     {
         $query = $this->createQueryBuilder('p')
             ->where('p.status IN (:status)')
-            ->setParameter('status', [EnergyStationStatusReference::WAITING_VALIDATION, EnergyStationStatusReference::PLACE_ID_ANOMALY, EnergyStationStatusReference::VALIDATION_REJECTED])
+            ->setParameter('status', [$status])
             ->orderBy('RAND()')
             ->setMaxResults(1)
             ->getQuery();

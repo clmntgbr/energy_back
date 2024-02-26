@@ -74,6 +74,6 @@ final class ErrorGeocodingAddressMessageHandler
         $this->addressService->hydrate($address, $data);
         $this->energyStationService->setEnergyStationStatus($energyStation, EnergyStationStatusReference::ADDRESS_FORMATED);
 
-//        return $this->messageBus->dispatch(new CreateGooglePlaceTextsearchMessage($message->getEnergyStationId()));
+       return $this->messageBus->dispatch(new CreateGooglePlaceTextsearchMessage($message->getEnergyStationId()));
     }
 }

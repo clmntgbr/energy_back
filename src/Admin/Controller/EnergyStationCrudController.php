@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CodeEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
@@ -107,6 +108,7 @@ class EnergyStationCrudController extends AbstractCrudController
             ChoiceField::new('statusAdmin')
                 ->setLabel('Change status')
                 ->hideOnIndex()
+                ->hideOnDetail()
                 ->autocomplete()
                 ->renderAsNativeWidget()
                 ->setChoices($energyStationStatus)
@@ -146,22 +148,10 @@ class EnergyStationCrudController extends AbstractCrudController
                 ->hideOnIndex()
                 ->setLabel('Maximum Power')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
-            TextField::new('evInformation.typeOfCharging')
+            DateField::new('evInformation.dateCreated')
                 ->hideOnIndex()
-                ->setLabel('Type Charging')
+                ->setLabel('Date Created')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
-            TextField::new('evInformation.chargingAccess')
-                ->hideOnIndex()
-                ->setLabel('Charging Access')
-                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
-            TextareaField::new('evInformation.accessibility')
-                ->hideOnIndex()
-                ->setLabel('Accessibility')
-                ->setColumns('col-sm-6 col-lg-6 col-xxl-6'),
-            TextareaField::new('evInformation.observations')
-                ->hideOnIndex()
-                ->setLabel('Observations')
-                ->setColumns('col-sm-6 col-lg-6 col-xxl-6'),
 
             FormField::addPanel('GooglePlace'),
             IdField::new('googlePlace.id')

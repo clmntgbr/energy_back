@@ -35,15 +35,15 @@ class EnergyStationStatusUpdateCommandService
             match ($energyStation->getStatus()) {
                 EnergyStationStatusReference::CREATED => $this->created($energyStation),
                 EnergyStationStatusReference::UPDATED_TO_ADDRESS_FORMATED => $this->created($energyStation),
-                EnergyStationStatusReference::ADDRESS_ERROR_FORMATED => $this->created($energyStation),
+                // EnergyStationStatusReference::ADDRESS_ERROR_FORMATED => $this->created($energyStation),
 
                 EnergyStationStatusReference::ADDRESS_FORMATED => $this->textSearch($energyStation),
                 EnergyStationStatusReference::UPDATED_TO_FOUND_IN_TEXTSEARCH => $this->textSearch($energyStation),
-                EnergyStationStatusReference::NOT_FOUND_IN_TEXTSEARCH => $this->textSearch($energyStation),
+                // EnergyStationStatusReference::NOT_FOUND_IN_TEXTSEARCH => $this->textSearch($energyStation),
 
                 EnergyStationStatusReference::FOUND_IN_TEXTSEARCH => $this->detailsSearch($energyStation),
                 EnergyStationStatusReference::UPDATED_TO_FOUND_IN_DETAILS => $this->detailsSearch($energyStation),
-                EnergyStationStatusReference::NOT_FOUND_IN_DETAILS => $this->detailsSearch($energyStation),
+                // EnergyStationStatusReference::NOT_FOUND_IN_DETAILS => $this->detailsSearch($energyStation),
 
                 default => '',
             };
