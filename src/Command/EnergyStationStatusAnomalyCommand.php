@@ -30,7 +30,6 @@ class EnergyStationStatusAnomalyCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $this->energyStationStatusAnomalyCommandService->invoke();
-
         return Command::SUCCESS;
     }
 }

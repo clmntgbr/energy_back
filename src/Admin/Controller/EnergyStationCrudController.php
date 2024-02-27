@@ -59,6 +59,7 @@ class EnergyStationCrudController extends AbstractCrudController
             ->add('energyStationId')
             ->add('pop')
             ->add('name')
+            ->add('googlePlace')
             ->add(EnergyStationStatusFilter::new('status'))
             ->add(TextFilter::new('address'))
             ->add(DateTimeFilter::new('createdAt'))
@@ -74,6 +75,8 @@ class EnergyStationCrudController extends AbstractCrudController
             EnergyStationStatusReference::UPDATED_TO_FOUND_IN_DETAILS => EnergyStationStatusReference::UPDATED_TO_FOUND_IN_DETAILS,
 
             EnergyStationStatusReference::WAITING_VALIDATION => EnergyStationStatusReference::WAITING_VALIDATION,
+
+            EnergyStationStatusReference::VALIDATION_REJECTED => EnergyStationStatusReference::VALIDATION_REJECTED,
 
             EnergyStationStatusReference::CLOSED => EnergyStationStatusReference::CLOSED,
             EnergyStationStatusReference::OPEN => EnergyStationStatusReference::OPEN,
