@@ -133,28 +133,28 @@ class EnergyStationCrudController extends AbstractCrudController
                 ->setLabel('PreviousEnergyPrices'),
 
             FormField::addPanel('EvInformation'),
-            IdField::new('evInformation.id')
-                ->hideOnIndex()
-                ->setDisabled()
-                ->setLabel('Id')
-                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
-            IdField::new('evInformation.uuid')
-                ->hideOnIndex()
-                ->setDisabled()
-                ->setLabel('Uuid')
-                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
-            TextField::new('evInformation.numberRechargePoint')
-                ->hideOnIndex()
-                ->setLabel('Nb Pdc')
-                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
-            TextField::new('evInformation.maximumPower')
-                ->hideOnIndex()
-                ->setLabel('Maximum Power')
-                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
-            DateField::new('evInformation.dateCreated')
-                ->hideOnIndex()
-                ->setLabel('Date Created')
-                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            // IdField::new('evInformation.id')
+            //     ->hideOnIndex()
+            //     ->setDisabled()
+            //     ->setLabel('Id')
+            //     ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            // IdField::new('evInformation.uuid')
+            //     ->hideOnIndex()
+            //     ->setDisabled()
+            //     ->setLabel('Uuid')
+            //     ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            // TextField::new('evInformation.numberRechargePoint')
+            //     ->hideOnIndex()
+            //     ->setLabel('Nb Pdc')
+            //     ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            // TextField::new('evInformation.maximumPower')
+            //     ->hideOnIndex()
+            //     ->setLabel('Maximum Power')
+            //     ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            // DateField::new('evInformation.dateCreated')
+            //     ->hideOnIndex()
+            //     ->setLabel('Date Created')
+            //     ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
 
             FormField::addPanel('GooglePlace'),
             IdField::new('googlePlace.id')

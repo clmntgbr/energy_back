@@ -17,8 +17,7 @@ class GasUpdateCommandService
         private readonly EnergyStationRepository $energyStationRepository,
         private readonly EnergyStationService    $energyStationService,
         private readonly MessageBusInterface     $messageBus,
-    )
-    {
+    ) {
     }
 
     public function invoke(): void
@@ -36,6 +35,7 @@ class GasUpdateCommandService
 
         $energyStations = $this->energyStationRepository->findEnergyStationsById(EnergyStationReference::GAS);
 
+        $count = 0;
         foreach ($data as $datum) {
             $energyStationId = $this->energyStationService->getEnergyStationId($datum['@attributes']['id']);
 
@@ -43,7 +43,7 @@ class GasUpdateCommandService
                 continue;
             }
 
-            $hash = $this->energyStationService->getHash($datum);
+            $hash = $this->energyStationService->getHash($datum['services'] ?? []);
 
             if (!array_key_exists($energyStationId->getId(), $energyStations)) {
                 $this->energyStationService->createEnergyStationMessage($energyStationId, $hash, $datum, EnergyStationReference::GAS);
@@ -54,6 +54,12 @@ class GasUpdateCommandService
             }
 
             $this->createEnergyPricesMessage($energyStationId, $datum);
+
+            $count++;
+
+            if ($count == 25) {
+                return;
+            }
         }
     }
 

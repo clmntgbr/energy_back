@@ -13,15 +13,14 @@ class EvUpdateCommandService
         private readonly string                  $randomLocationUrl,
         private readonly EnergyStationRepository $energyStationRepository,
         private readonly EnergyStationService    $energyStationService
-    )
-    {
+    ) {
     }
 
     public function invoke($loop): void
     {
         $client = new Client();
 
-        for($i=0;$i< $loop;$i++) {
+        for ($i = 0; $i < $loop; $i++) {
 
             $energyStations = $this->energyStationRepository->findEnergyStationsById(EnergyStationReference::EV);
 
@@ -37,7 +36,7 @@ class EvUpdateCommandService
 
             $evUrlresponse = $client->request('GET', sprintf($this->evUrl, $latitude, $longitude));
             $evUrlData = \Safe\json_decode($evUrlresponse->getBody()->getContents(), true);
-            
+
             $count = 0;
 
             foreach($evUrlData as $datum) {
@@ -47,23 +46,20 @@ class EvUpdateCommandService
                 }
 
                 $energyStationId = $this->energyStationService->getEnergyStationId($datum['UUID']);
-                $hash = $this->energyStationService->getHash($datum);
                 $datum = $this->hydrate($datum);
+                $hash = $this->energyStationService->getHash($datum);
 
                 if (!array_key_exists($energyStationId->getId(), $energyStations)) {
-                    $this->energyStationService->createEnergyStationMessage($energyStationId, $hash, $this->hydrate($datum), EnergyStationReference::EV);
+                    $this->energyStationService->createEnergyStationMessage($energyStationId, $hash, $datum, EnergyStationReference::EV);
                 }
 
-                if (array_key_exists($energyStationId->getId(), $energyStations) && $energyStations[$energyStationId->getId()]['hash'] !== $hash) {
-                    $this->energyStationService->updateEnergyStationMessage($energyStationId, $hash, $this->hydrate($datum));
-                }
                 $count++;
 
                 if ($count == 25) {
                     return;
                 }
             }
-            
+
             dump('sleeping for 10 sec ...');
             sleep(10);
         }

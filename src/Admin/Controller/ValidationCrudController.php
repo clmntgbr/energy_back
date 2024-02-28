@@ -11,6 +11,7 @@ use App\Repository\EnergyStationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,6 +67,10 @@ class ValidationCrudController extends AbstractController
         // if (EnergyStationStatusReference::WAITING_VALIDATION !== $energyStation->getStatus()) {
         //     return $this->redirect('/admin?routeName=app_admin_validation');
         // }
+
+        if ($energyStation->getGooglePlace()->getPlaceId() === null) {
+            throw new Exception('PlaceId is missing.');
+        }
 
         $energyStation->setStatus(EnergyStationStatusReference::VALIDATED);
         $energyStation->setStatus(EnergyStationStatusReference::OPEN);

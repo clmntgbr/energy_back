@@ -15,8 +15,7 @@ final class EnergyStationService
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly MessageBusInterface    $messageBus
-    )
-    {
+    ) {
     }
 
     public function getEnergyStationId($energyStationId): EnergyStationId
@@ -52,9 +51,8 @@ final class EnergyStationService
         );
     }
 
-    public function getHash(array $datum): string
+    public function getHash(array $element): string
     {
-        $element = $datum['services'] ?? [];
         return hash('sha256', json_encode($element));
     }
 
