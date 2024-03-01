@@ -14,14 +14,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CodeEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
@@ -133,11 +131,11 @@ class EnergyStationCrudController extends AbstractCrudController
                 ->setLabel('PreviousEnergyPrices'),
 
             FormField::addPanel('EvInformation'),
-            // IdField::new('evInformation.id')
-            //     ->hideOnIndex()
-            //     ->setDisabled()
-            //     ->setLabel('Id')
-            //     ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            IdField::new('evInformation.id')
+                ->hideOnIndex()
+                ->setDisabled()
+                ->setLabel('Id')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             // IdField::new('evInformation.uuid')
             //     ->hideOnIndex()
             //     ->setDisabled()

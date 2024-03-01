@@ -57,6 +57,7 @@ restart: stop start
 ## Init project
 init: install update
 
+init-bdd: drop create bdd migrate migration migrate
 
 cache:
 	$(PHP) rm -r var/cache
@@ -109,6 +110,9 @@ npm-install:
 
 npm-build:
 	$(PHP) npm run build
+
+bdd:
+	$(PHP) bin/console bdd:import
 
 ev-update:
 	$(PHP) bin/console app:ev:update 1
