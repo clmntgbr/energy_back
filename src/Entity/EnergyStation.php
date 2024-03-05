@@ -123,6 +123,7 @@ class EnergyStation
         $this->services = [];
         $this->image = new \Vich\UploaderBundle\Entity\File();
         $this->energyPrices = new ArrayCollection();
+        $this->evInformation = new EvInformation();
     }
 
     public function __toString()

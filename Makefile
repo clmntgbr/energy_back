@@ -40,9 +40,6 @@ kill:
 build:
 	@$(DOCKER_COMPOSE) build --pull --no-cache
 
-## Init project
-init: install update
-
 ## Start containers
 start:
 	@$(DOCKER_COMPOSE) up -d
@@ -55,7 +52,7 @@ stop:
 restart: stop start
 
 ## Init project
-init: install update
+init: install update init-bdd
 
 init-bdd: drop create bdd migrate migration migrate
 

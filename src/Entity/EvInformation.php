@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\EvInformationRepository;
+use App\Service\Uuid;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -41,6 +42,7 @@ class EvInformation
 
     public function __construct()
     {
+        $this->uuid = Uuid::v4();
         $this->evRechargePoints = new ArrayCollection();
     }
 
