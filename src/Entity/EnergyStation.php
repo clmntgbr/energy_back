@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\ApiResource\Controller\GetEnergyStationsMap;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\EnergyStationRepository;
 use App\Service\Uuid;
@@ -19,7 +21,18 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use function Safe\json_encode;
 
 #[ORM\Entity(repositoryClass: EnergyStationRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            name: 'get_energy_stations_map',
+            uriTemplate: '/energy_stations/map',
+            controller: GetEnergyStationsMap::class,
+            read: false,
+            paginationEnabled: false,
+            normalizationContext: ['skip_null_values' => false, 'groups' => ['get_energy_stations_map', 'common']],
+        )
+    ]
+)]
 #[Vich\Uploadable]
 class EnergyStation
 {
@@ -28,42 +41,42 @@ class EnergyStation
     use BlameableEntity;
 
     #[ORM\Column(type: Types::STRING)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private string $pop;
 
     #[ORM\Column(type: Types::STRING, length: 5)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private string $type;
 
     #[ORM\Column(type: Types::STRING, length: 100)]
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private string $energyStationId;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $statuses = [];
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $status;
 
     #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
     private bool $hasEnergyStationBrandVerified = false;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?\DateTimeImmutable $closedAt = null;
 
     #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     #[ORM\JoinColumn(nullable: false)]
     private Address $address;
 
     #[ORM\ManyToOne(targetEntity: GooglePlace::class, cascade: ['persist', 'remove'])]
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     #[ORM\JoinColumn(nullable: false)]
     private GooglePlace $googlePlace;
 
@@ -80,17 +93,18 @@ class EnergyStation
     private ?string $hash;
 
     #[ORM\ManyToOne(targetEntity: EnergyStationBrand::class, cascade: ['persist'], fetch: 'LAZY')]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private EnergyStationBrand $energyStationBrand;
 
     #[ORM\ManyToOne(targetEntity: EvInformation::class, cascade: ['persist'], fetch: 'LAZY')]
+    #[Groups(['get_energy_stations_map'])]
     private ?EvInformation $evInformation;
 
     #[ORM\OneToMany(mappedBy: 'energyStation', targetEntity: EnergyPrice::class, cascade: ['persist', 'remove'], fetch: 'LAZY')]
     private Collection $energyPrices;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?array $services;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
@@ -108,7 +122,7 @@ class EnergyStation
     #[ORM\Column(type: Types::INTEGER, nullable: false)]
     private int $maxRetryPlaceDetails;
 
-    #[Groups(['get_energy_stations'])]
+    #[Groups(['get_energy_stations_map'])]
     private bool $hasLowPrices = false;
 
     public function __construct()
@@ -131,19 +145,19 @@ class EnergyStation
         return (string)$this->energyStationId;
     }
 
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     public function getImagePath(): string
     {
         return sprintf('/images/energy_stations/%s', $this->getImage()->getName());
     }
 
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     public function getLastPrices(): array
     {
         return array_combine(array_slice([0, 1, 2, 3, 4, 5], 0, count($this->lastEnergyPrices)), $this->lastEnergyPrices);
     }
 
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     public function getPreviousPrices(): array
     {
         return array_combine(array_slice([0, 1, 2, 3, 4, 5], 0, count($this->previousEnergyPrices)), $this->previousEnergyPrices);

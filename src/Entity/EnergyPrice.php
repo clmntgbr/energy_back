@@ -14,7 +14,9 @@ use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 #[ORM\Entity(repositoryClass: EnergyPriceRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: []
+)]
 class EnergyPrice
 {
     use IdentifyTraits;

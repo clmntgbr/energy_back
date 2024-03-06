@@ -12,31 +12,33 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: EvRechargePointRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: []
+)]
 class EvRechargePoint
 {
     use IdentifyTraits;
     use TimestampableEntity;
     use BlameableEntity;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
     #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $typeOfCharging;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $powerKW;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $level;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $isFastChargeCapable;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[Groups(['get_energy_stations_map'])]
     private ?int $quantity;
 
     #[ORM\ManyToOne(targetEntity: EvInformation::class, inversedBy: 'evRechargePoints')]

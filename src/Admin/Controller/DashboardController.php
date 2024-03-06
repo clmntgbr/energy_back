@@ -55,7 +55,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToUrl('Api Docs', 'fas fa-map-marker-alt', '/api/docs');
         yield MenuItem::linkToCrud('EnergyStation', 'fas fa-list', EnergyStation::class);
-        yield MenuItem::linkToCrud('EnergyService', 'fas fa-list', EnergyService::class);
         yield MenuItem::linkToCrud('EnergyStationBrand', 'fas fa-list', EnergyStationBrand::class);
         yield MenuItem::linkToCrud('EnergyPrice', 'fas fa-list', EnergyPrice::class);
         yield MenuItem::linkToCrud('EnergyType', 'fas fa-list', EnergyType::class);

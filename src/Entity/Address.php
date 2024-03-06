@@ -45,39 +45,39 @@ class Address
     use BlameableEntity;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $vicinity = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations', 'get_energy_stations_map'])]
     private ?string $street;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations', 'get_energy_stations_map'])]
     private ?string $number = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_energy_stations', 'get_addresses', 'get_energy_station'])]
+    #[Groups(['get_energy_stations', 'get_addresses', 'get_energy_stations_map'])]
     private ?string $city;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_addresses', 'get_energy_station'])]
+    #[Groups(['get_addresses', 'get_energy_stations_map'])]
     private ?string $region = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations', 'get_energy_stations_map'])]
     private ?string $postalCode;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $country;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations', 'get_energy_stations_map'])]
     private ?string $longitude;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations', 'get_energy_stations_map'])]
     private ?string $latitude;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]

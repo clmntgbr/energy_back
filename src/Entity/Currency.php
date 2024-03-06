@@ -12,7 +12,9 @@ use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: CurrencyRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: []
+)]
 class Currency
 {
     use IdentifyTraits;

@@ -16,7 +16,9 @@ use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: EnergyTypeRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    operations: []
+)]
 #[Vich\Uploadable]
 class EnergyType
 {

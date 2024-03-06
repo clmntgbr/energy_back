@@ -16,7 +16,9 @@ use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: EnergyStationBrandRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: []
+)]
 #[Vich\Uploadable]
 class EnergyStationBrand
 {
@@ -44,7 +46,7 @@ class EnergyStationBrand
         $this->uuid = Uuid::v4();
     }
 
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     public function getImagePath(): string
     {
         return sprintf('/images/energy_stations_brand/%s', $this->getImage()->getName());
@@ -62,7 +64,7 @@ class EnergyStationBrand
         return $this;
     }
 
-    #[Groups(['get_energy_stations', 'get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     public function getImageLowPath(): string
     {
         return sprintf('/images/energy_stations_brand/%s', $this->getImageLow()->getName());

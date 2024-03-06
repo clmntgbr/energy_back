@@ -134,15 +134,12 @@ class EnergyStationRepository extends ServiceEntityRepository
                     ((6371 * acos(cos(radians($latitude)) * cos(radians(a.latitude)) * cos(radians(a.longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(a.latitude))))*1000) as distance,
                     
                     JSON_KEYS(s.last_energy_prices) as energy_types,
-                    
-                    (SELECT GROUP_CONCAT(gs.name SEPARATOR ', ')
-                    FROM energy_station_energy_service gss
-                    INNER JOIN energy_service gs ON gss.energy_service_id = gs.id
-                    AND gss.energy_station_id = s.id) as energy_services
+                    JSON_KEYS(s.services) as energy_station_services
   
                     FROM energy_station s 
                     INNER JOIN address a ON s.address_id = a.id
-                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL $energyTypeFilter $cityFilter $departmentFilter
+                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL
+                    -- WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL $energyTypeFilter $cityFilter $departmentFilter
                     HAVING `distance` < $radius
                     ORDER BY `distance` ASC LIMIT 250;
         ";

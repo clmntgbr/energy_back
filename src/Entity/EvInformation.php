@@ -16,28 +16,29 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: EvInformationRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: []
+)]
 class EvInformation
 {
     use IdentifyTraits;
     use TimestampableEntity;
     use BlameableEntity;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
     #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $numberRechargePoint;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $maximumPower;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups(['get_energy_stations_map'])]
     private ?DateTime $dateCreated;
 
     #[ORM\OneToMany(targetEntity: EvRechargePoint::class, mappedBy: 'evinformation')]
+    #[Groups(['get_energy_stations_map'])]
     private Collection $evRechargePoints;
 
     public function __construct()

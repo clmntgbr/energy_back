@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\GooglePlaceRepository;
 use App\Service\Uuid;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
@@ -13,7 +14,11 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: GooglePlaceRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get()
+    ]
+)]
 class GooglePlace
 {
     use IdentifyTraits;
@@ -21,63 +26,58 @@ class GooglePlace
     use BlameableEntity;
 
     #[ORM\Column(type: Types::STRING, length: 15, nullable: true)]
-    #[Groups(['get_energy_station'])]
     private ?string $googleId = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $url = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $website = null;
 
     #[ORM\Column(type: Types::STRING, length: 20, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $phoneNumber = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $placeId = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
-    #[Groups(['get_energy_station'])]
     private ?string $compoundCode = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
-    #[Groups(['get_energy_station'])]
     private ?string $globalCode = null;
 
     #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $googleRating = null;
 
     #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
-    #[Groups(['get_energy_station', 'get_energy_stations'])]
+    #[Groups(['get_energy_stations_map', 'get_energy_stations'])]
     private ?string $rating = null;
 
     #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $userRatingsTotal = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_energy_station'])]
     private ?string $icon = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
-    #[Groups(['get_energy_station'])]
     private ?string $reference = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $wheelchairAccessibleEntrance = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private ?string $businessStatus = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
-    #[Groups(['get_energy_station'])]
+    #[Groups(['get_energy_stations_map'])]
     private array $openingHours = [];
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
