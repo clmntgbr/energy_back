@@ -33,6 +33,10 @@ class EvInformation
     #[Groups(['get_energy_stations_map'])]
     private ?string $maximumPower;
 
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Groups(['get_energy_stations_map'])]
+    private ?string $minimumPower;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Groups(['get_energy_stations_map'])]
     private ?DateTime $dateCreated;
@@ -109,6 +113,18 @@ class EvInformation
                 $evRechargePoint->setEvinformation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMinimumPower(): ?string
+    {
+        return $this->minimumPower;
+    }
+
+    public function setMinimumPower(?string $minimumPower): static
+    {
+        $this->minimumPower = $minimumPower;
 
         return $this;
     }

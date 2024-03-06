@@ -14,6 +14,7 @@ parameters:
   longitudeDefault: "%env(LONGITUDE_DEFAULT)%"
   radiusDefault: "%env(RADIUS_DEFAULT)%"
   energyTypeUuidDefault: "%env(ENERGY_TYPE_UUID_DEFAULT)%"
+  energyStationTypeDefault: "%env(ENERGY_STATION_TYPE_DEFAULT)%"
 
 services:
     _defaults:
@@ -35,6 +36,7 @@ services:
           string $longitudeDefault: "%longitudeDefault%"
           string $radiusDefault: "%radiusDefault%"
           string $energyTypeUuidDefault: "%energyTypeUuidDefault%"
+          string $energyStationTypeDefault: "%energyStationTypeDefault%"
 
     App\:
         resource: "../src/"

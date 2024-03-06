@@ -19,21 +19,33 @@ class GetEnergyStationsMap extends AbstractController
         private readonly string                   $latitudeDefault,
         private readonly string                   $longitudeDefault,
         private readonly string                   $energyTypeUuidDefault,
+        private readonly string                   $energyStationTypeDefault,
         private readonly string                   $radiusDefault
-    )
-    {
+    ) {
     }
 
     public function __invoke(Request $request): array
     {
-        $latitude = $request->query->get('latitude') ?? $this->latitudeDefault;
-        $longitude = $request->query->get('longitude') ?? $this->longitudeDefault;
-        $radius = $request->query->get('radius') ?? $this->radiusDefault;
-        $energyTypeUuid = $request->query->get('energy_type_uuid') ?? $this->energyTypeUuidDefault;
+        $latitudeDefault = $request->query->get('latitude') ?? $this->latitudeDefault;
+        $longitudeDefault = $request->query->get('longitude') ?? $this->longitudeDefault;
+        $radiusDefault = $request->query->get('radius') ?? $this->radiusDefault;
+        $energyTypeUuidDefault = $request->query->get('energy_type_uuid') ?? $this->energyTypeUuidDefault;
+        $energyStationTypeDefault = $request->query->get('energy_station_type') ?? $this->energyStationTypeDefault;
+
         $filterCity = $request->query->get('filter_city') ?? null;
         $filterDepartment = $request->query->get('filter_department') ?? null;
+        $filterEv = $request->query->get('filter_ev') ?? null;
 
-        $energyStations = $this->energyStationRepository->getEnergyStationsMap($longitude, $latitude, $energyTypeUuid, $radius / 2, $filterCity, $filterDepartment);
-        return $this->energyStationsMapService->invoke($energyStations, $energyTypeUuid);
+        $energyStations = $this->energyStationRepository->getEnergyStationsMap(
+            $longitudeDefault,
+            $latitudeDefault,
+            $energyStationTypeDefault,
+            $energyTypeUuidDefault,
+            $radiusDefault / 2,
+            $filterCity,
+            $filterDepartment
+        );
+
+        return $this->energyStationsMapService->invoke($energyStations, $energyTypeUuidDefault);
     }
 }

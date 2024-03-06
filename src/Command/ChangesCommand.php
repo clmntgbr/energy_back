@@ -30,14 +30,24 @@ class ChangesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $stations = $this->energyStationRepository->findBy(['type' => 'GAS']);
+        $stations = $this->energyStationRepository->findBy(['type' => 'EV']);
 
         foreach ($stations as $station) {
-            if ($station->getEvInformation() === null) {
-                $station->setEvInformation(new EvInformation());
-                $this->em->persist($station);
-                $this->em->flush();
+            $minimumPower = null;
+            foreach ($station->getEvInformation()->getEvRechargePoints() as $evRP) {
+                dump($evRP->getPowerKW());
+                if ($minimumPower === null) {
+                    $minimumPower = $evRP->getPowerKW();
+                }
+
+                if ($minimumPower >= $evRP->getPowerKW()) {
+                    $minimumPower = $evRP->getPowerKW();
+                }
             }
+
+            $station->getEvInformation()->setMinimumPower($minimumPower);
+            $this->em->persist($station);
+            $this->em->flush();
         }
 
         return Command::SUCCESS;

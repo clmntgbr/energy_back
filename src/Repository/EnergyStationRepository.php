@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\EnergyStation;
+use App\Lists\EnergyStationReference;
 use App\Lists\EnergyStationStatusReference;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\QueryException;
@@ -123,9 +124,9 @@ class EnergyStationRepository extends ServiceEntityRepository
     }
 
     /** @return EnergyStation[] */
-    public function getEnergyStationsMap(string $longitude, string $latitude, string $energyTypeUuid, string $radius, ?string $filterCity, ?string $filterDepartment)
+    public function getEnergyStationsMap(string $longitude, string $latitude, string $energyStationTypeDefault, string $energyTypeUuid, string $radius, ?string $filterCity, ?string $filterDepartment)
     {
-        $energyTypeFilter = $this->createEnergyTypeFilter($energyTypeUuid);
+        $energyTypeFilter = $this->createEnergyTypeFilter($energyStationTypeDefault, $energyTypeUuid);
         $cityFilter = $this->createEnergyStationsCitiesFilter($filterCity);
         $departmentFilter = $this->createEnergyStationsDepartmentsFilter($filterDepartment);
 
@@ -138,8 +139,8 @@ class EnergyStationRepository extends ServiceEntityRepository
   
                     FROM energy_station s 
                     INNER JOIN address a ON s.address_id = a.id
-                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL
-                    -- WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL $energyTypeFilter $cityFilter $departmentFilter
+                    -- WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL
+                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL $energyTypeFilter $cityFilter $departmentFilter
                     HAVING `distance` < $radius
                     ORDER BY `distance` ASC LIMIT 250;
         ";
@@ -155,11 +156,13 @@ class EnergyStationRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    private function createEnergyTypeFilter(string $energyTypeUuid)
+    private function createEnergyTypeFilter(string $energyStationTypeDefault, string $energyTypeUuid)
     {
-        $query = " AND (JSON_KEYS(s.last_energy_prices) LIKE '%$energyTypeUuid%')";
+        if ($energyStationTypeDefault === EnergyStationReference::EV) {
+            return " AND s.type = 'EV'";
+        }
 
-        return $query;
+        return " AND s.type = 'GAS' AND (JSON_KEYS(s.last_energy_prices) LIKE '%$energyTypeUuid%')";
     }
 
     private function createGasServicesFilter($filters)
