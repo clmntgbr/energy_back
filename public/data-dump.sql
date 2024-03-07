@@ -86,21 +86,6 @@ INSERT INTO `currency` VALUES (1,'80905081-bfcc-4e47-aaed-79fc8d867d19','USD / $
 UNLOCK TABLES;
 
 --
--- Table structure for table `doctrine_migration_versions`
---
-
-DROP TABLE IF EXISTS `doctrine_migration_versions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `doctrine_migration_versions` (
-  `version` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
-  `executed_at` datetime DEFAULT NULL,
-  `execution_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `energy_price`
 --
 

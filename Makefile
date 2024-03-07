@@ -54,7 +54,7 @@ restart: stop start
 ## Init project
 init: install update init-bdd
 
-init-bdd: drop create bdd migrate migration migrate
+init-bdd: drop create migrate migration migrate migrate bdd migration migrate
 
 cache:
 	$(PHP) rm -r var/cache
@@ -70,6 +70,11 @@ nginx:
 ## Entering database shell
 database:
 	@$(DOCKER_COMPOSE) exec database sh
+
+dump:
+	rm -r -f public/data-dump.sql
+	$(DATABASE) mysqldump -u random -prandom energy --no-create-info --ignore-table=energy.doctrine_migration_versions > public/data-dump.sql
+	git add public/data-dump.sql
 
 ## Composer install
 install:

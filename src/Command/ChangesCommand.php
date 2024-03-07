@@ -2,9 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\EvInformation;
 use App\Repository\EnergyStationRepository;
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -30,25 +28,13 @@ class ChangesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $stations = $this->energyStationRepository->findBy(['type' => 'EV']);
+        $backupFile = '/sauvegarde.sql';
 
-        foreach ($stations as $station) {
-            $minimumPower = null;
-            foreach ($station->getEvInformation()->getEvRechargePoints() as $evRP) {
-                dump($evRP->getPowerKW());
-                if ($minimumPower === null) {
-                    $minimumPower = $evRP->getPowerKW();
-                }
+        // Commande pour exécuter mysqldump
+        $command = "mysqldump --host=energy_database --user=random --password=random energy > {$backupFile}";
 
-                if ($minimumPower >= $evRP->getPowerKW()) {
-                    $minimumPower = $evRP->getPowerKW();
-                }
-            }
-
-            $station->getEvInformation()->setMinimumPower($minimumPower);
-            $this->em->persist($station);
-            $this->em->flush();
-        }
+        // Exécution de la commande
+        exec($command, $output, $returnValue);
 
         return Command::SUCCESS;
     }

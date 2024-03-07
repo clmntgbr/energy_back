@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Traits\IdentifyTraits;
 use App\Entity\Traits\NameTraits;
 use App\Repository\EnergyTypeRepository;
@@ -17,7 +19,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: EnergyTypeRepository::class)]
 #[ApiResource(
-    operations: []
+    operations: [
+        new GetCollection(
+            normalizationContext: ['skip_null_values' => false, 'groups' => ['get_energy_types', 'common']],
+        ),
+        new Get(
+            normalizationContext: ['skip_null_values' => false, 'groups' => ['get_energy_type', 'common']],
+        )
+    ]
 )]
 #[Vich\Uploadable]
 class EnergyType
