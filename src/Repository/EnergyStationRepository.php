@@ -140,7 +140,7 @@ class EnergyStationRepository extends ServiceEntityRepository
                     FROM energy_station s 
                     INNER JOIN address a ON s.address_id = a.id
                     -- WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL
-                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL $energyTypeFilter $cityFilter $departmentFilter
+                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL AND s.status = 'open' $energyTypeFilter $cityFilter $departmentFilter
                     HAVING `distance` < $radius
                     ORDER BY `distance` ASC LIMIT 250;
         ";

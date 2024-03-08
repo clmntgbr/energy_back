@@ -39,7 +39,7 @@ class GasUpdateCommandService
         foreach ($data as $datum) {
             $energyStationId = $this->energyStationService->getEnergyStationId($datum['@attributes']['id']);
 
-            if (!in_array(substr($energyStationId->getId(), 0, 2), ['94'])) {
+            if (!in_array(substr($energyStationId->getId(), 0, 2), ['75','94', '91', '92', '93', '95'])) {
                 continue;
             }
 
@@ -57,9 +57,9 @@ class GasUpdateCommandService
 
             $count++;
 
-            if ($count == 25) {
-                return;
-            }
+            // if ($count == 25) {
+            //     return;
+            // }
         }
     }
 

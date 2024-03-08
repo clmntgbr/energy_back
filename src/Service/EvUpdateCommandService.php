@@ -55,9 +55,9 @@ class EvUpdateCommandService
 
                 $count++;
 
-                if ($count == 25) {
-                    return;
-                }
+                // if ($count == 25) {
+                //     return;
+                // }
             }
 
             dump('sleeping for 10 sec ...');

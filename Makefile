@@ -117,7 +117,7 @@ bdd:
 	$(PHP) bin/console bdd:import
 
 ev-update:
-	$(PHP) bin/console app:ev:update 1
+	$(PHP) bin/console app:ev:update 4
 
 gas-download:
 	$(PHP) bin/console app:gas:download

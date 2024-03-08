@@ -113,9 +113,9 @@ final class CreateEnergyStationMessageHandler
         $this->em->persist($energyStation);
         $this->em->flush();
 
-        $this->messageBus->dispatch(
-            new GeocodingAddressMessage(new AddressId($energyStation->getAddress()->getId()), new EnergyStationId($energyStation->getEnergyStationId()))
-        );
+        // $this->messageBus->dispatch(
+        //     new GeocodingAddressMessage(new AddressId($energyStation->getAddress()->getId()), new EnergyStationId($energyStation->getEnergyStationId()))
+        // );
     }
 
     /**

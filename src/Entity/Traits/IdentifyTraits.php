@@ -13,12 +13,12 @@ trait IdentifyTraits
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column]
     #[ApiProperty(identifier: false)]
-    #[Groups(['get_energy_types'])]
+    #[Groups(['common'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::GUID, unique: true, length: 36)]
     #[ApiProperty(identifier: true)]
-    #[Groups(['get_energy_stations', 'get_energy_types', 'get_energy_station'])]
+    #[Groups(['common'])]
     private ?string $uuid;
 
     public function getId(): ?int
