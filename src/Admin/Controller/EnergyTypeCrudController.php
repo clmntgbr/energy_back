@@ -47,6 +47,7 @@ class EnergyTypeCrudController extends AbstractCrudController
             TextField::new('uuid')->setDisabled(),
             TextField::new('reference')->setDisabled(),
             TextField::new('name'),
+            TextField::new('code'),
             ChoiceField::new('type')
                 ->setLabel('Change type')
                 ->autocomplete()

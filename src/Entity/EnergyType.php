@@ -40,6 +40,10 @@ class EnergyType
     #[Groups(['get_energy_types', 'get_energy_type'])]
     private string $type;
 
+    #[ORM\Column(type: Types::STRING, length: 5, nullable:true)]
+    #[Groups(['get_energy_types', 'get_energy_type'])]
+    private ?string $code;
+
     #[Vich\UploadableField(mapping: 'energy_types_image', fileNameProperty: 'image.name', size: 'image.size', mimeType: 'image.mimeType', originalName: 'image.originalName', dimensions: 'image.dimensions')]
     private ?File $imageFile = null;
 
@@ -93,6 +97,18 @@ class EnergyType
         if (null !== $imageFile) {
             $this->updatedAt = new \DateTime();
         }
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): static
+    {
+        $this->code = $code;
 
         return $this;
     }

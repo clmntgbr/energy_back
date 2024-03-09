@@ -73,7 +73,7 @@ database:
 
 dump:
 	rm -r -f public/data-dump.sql
-	$(DATABASE) mysqldump -u random -prandom energy --no-create-info --ignore-table=energy.doctrine_migration_versions > public/data-dump.sql
+	$(DATABASE) mysqldump -u random -prandom energy --ignore-table=energy.doctrine_migration_versions > public/data-dump.sql
 	git add public/data-dump.sql
 
 ## Composer install
@@ -95,6 +95,9 @@ fixture:
 ## Create database
 create:
 	$(PHP) bin/console doctrine:database:create --if-not-exists
+
+schema:
+	$(PHP) bin/console doctrine:schema:update -f --complete
 
 ## Making migration file
 migration:
