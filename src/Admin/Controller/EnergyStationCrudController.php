@@ -57,6 +57,7 @@ class EnergyStationCrudController extends AbstractCrudController
             ->add('energyStationId')
             ->add('pop')
             ->add('name')
+            ->add('type')
             ->add('googlePlace')
             ->add(EnergyStationStatusFilter::new('status'))
             ->add(TextFilter::new('address'))
