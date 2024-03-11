@@ -91,7 +91,6 @@ class EnergyStationCrudController extends AbstractCrudController
                 ->setDisabled()
                 ->setColumns('col-sm-12 col-lg-12 col-xxl-12'),
             TextField::new('type')
-                ->setDisabled()
                 ->setColumns('col-sm-12 col-lg-12 col-xxl-12'),
             TextField::new('name')
                 ->setColumns('col-sm-12 col-lg-12 col-xxl-12'),

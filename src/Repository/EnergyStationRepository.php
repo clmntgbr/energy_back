@@ -159,10 +159,10 @@ class EnergyStationRepository extends ServiceEntityRepository
     private function createEnergyTypeFilter(string $energyStationTypeDefault, string $energyTypeUuid)
     {
         if ($energyStationTypeDefault === EnergyStationReference::EV) {
-            return " AND s.type = 'EV'";
+            return " AND s.type IN ('EV', 'MIX')";
         }
 
-        return " AND s.type = 'GAS' AND (JSON_KEYS(s.last_energy_prices) LIKE '%$energyTypeUuid%')";
+        return " AND s.type IN ('GAS', 'MIX') AND (JSON_KEYS(s.last_energy_prices) LIKE '%$energyTypeUuid%')";
     }
 
     private function createGasServicesFilter($filters)
