@@ -4,6 +4,7 @@ namespace App\Admin\Controller;
 
 use App\Admin\Filter\EnergyStationStatusFilter;
 use App\Entity\EnergyStation;
+use App\Lists\EnergyStationReference;
 use App\Lists\EnergyStationStatusReference;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -21,6 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -57,7 +59,7 @@ class EnergyStationCrudController extends AbstractCrudController
             ->add('energyStationId')
             ->add('pop')
             ->add('name')
-            ->add('type')
+            ->add(ChoiceFilter::new('type')->setChoices(EnergyStationReference::getConstantsList()))
             ->add('googlePlace')
             ->add(EnergyStationStatusFilter::new('status'))
             ->add(TextFilter::new('address'))
